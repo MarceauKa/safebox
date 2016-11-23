@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "404labfr/safebox",
+    "description": "Safebox is a tool to manages your websites, accounts, clients, procedures and more. Built with Laravel 5.",
+    "keywords": ["laravel", "application", "passwords", "accounts", "clients", "domains"],
     "license": "MIT",
     "type": "project",
     "require": {
