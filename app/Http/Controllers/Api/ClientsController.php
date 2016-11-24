@@ -35,6 +35,17 @@ class ClientsController extends Controller
     }
 
     /**
+     * @param   int $id
+     * @return  JsonResponse
+     */
+    public function show($id)
+    {
+        $client = Client::findOrFail($id);
+
+        return $client;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -89,8 +100,11 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        $client = Client::findOrFail($id);
+        $client = Client::with('sites')->findOrFail($id);
+
+        $client->sites()->delete();
         $client->delete();
+
         return response('ok', 200);
     }
 }

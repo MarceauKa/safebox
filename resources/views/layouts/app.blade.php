@@ -75,6 +75,9 @@
         <div class="container">
             @yield('content')
         </div>
+
+        <client-entry></client-entry>
+        <site-entry></site-entry>
     </div>
 
     <!-- Scripts -->

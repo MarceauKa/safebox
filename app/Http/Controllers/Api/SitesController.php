@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Site;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Illuminate\Http\JsonResponse;
 
 class SitesController extends Controller
 {
@@ -17,6 +17,17 @@ class SitesController extends Controller
     public function index()
     {
         return Site::latest()->with('client')->get();
+    }
+
+    /**
+     * @param   int $id
+     * @return  JsonResponse
+     */
+    public function show($id)
+    {
+        $site = Site::findOrFail($id);
+
+        return $site;
     }
 
     /**
@@ -92,8 +103,9 @@ class SitesController extends Controller
      */
     public function destroy($id)
     {
-        $site = Site::findOrFail($id);
+        $site = Site::with('accounts')->findOrFail($id);
 
+        $site->accounts()->delete();
         $site->delete();
 
         return response('ok', 200);
