@@ -1,13 +1,3 @@
-<style scoped>
-    .action-link {
-        cursor: pointer;
-    }
-
-    .m-b-none {
-        margin-bottom: 0;
-    }
-</style>
-
 <template>
     <div>
         <div class="panel panel-default">
@@ -19,14 +9,13 @@
             </div>
 
             <div class="panel-body">
-                <p class="m-b-none" v-if="clients.length === 0">You have not created any clients.</p>
+                <p style="margin-bottom: 0;" v-if="clients.length === 0">You have not created any clients.</p>
                 <table class="table table-borderless m-b-none" v-if="clients.length > 0">
                     <thead>
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th></th>
                         <th></th>
                     </tr>
                     </thead>
@@ -41,15 +30,21 @@
                         <td style="vertical-align: middle;">
                             {{ client.phone }}
                         </td>
-                        <td style="vertical-align: middle;">
-                            <a class="action-link" @click="editClient(client)">Edit</a>
-                        </td>
-                        <td style="vertical-align: middle;">
-                            <a class="action-link text-danger" @click="deleteClient(client)">Delete</a>
+                        <td>
+                            <div class="btn-group btn-group-xs">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a @click="editClient(client)">Edit</a></li>
+                                    <li><a @click="deleteClient(client)">Delete</a></li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                <paginator source="/api/clients" v-on:fetch="update"></paginator>
             </div>
         </div>
     </div>
@@ -68,23 +63,13 @@
 
         mounted() {
             eventBus.$on('clientsRefresh', () => {
-                this.getClients()
+                eventBus.$emit('paginatorRefresh');
             })
-
-            this.prepareComponent();
         },
 
         methods: {
-            prepareComponent() {
-                this.getClients();
-            },
-
-            getClients() {
-                this.$http
-                    .get('/api/clients')
-                    .then(response => {
-                        this.clients = response.data;
-                    })
+            update(data) {
+                this.clients = data;
             }
         }
     }

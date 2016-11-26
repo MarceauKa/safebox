@@ -1,8 +1,4 @@
 <style scoped>
-    .action-link {
-        cursor: pointer;
-    }
-
     .m-b-none {
         margin-bottom: 0;
     }
@@ -26,7 +22,6 @@
                         <th>URL</th>
                         <th>Client</th>
                         <th></th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -34,15 +29,21 @@
                         <td style="vertical-align: middle;">{{ site.name }}</td>
                         <td style="vertical-align: middle;">{{ site.url }}</td>
                         <td style="vertical-align: middle;"><a class="btn-link" @click.prevent="showClient(site.client)">{{ site.client.name }}</a></td>
-                        <td style="vertical-align: middle;">
-                            <a class="action-link" @click="editSite(site)">Edit</a>
-                        </td>
-                        <td style="vertical-align: middle;">
-                            <a class="action-link text-danger" @click="deleteSite(site)">Delete</a>
+                        <td>
+                            <div class="btn-group btn-group-xs">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a @click="editSite(site)">Edit</a></li>
+                                    <li><a @click="deleteSite(site)">Delete</a></li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                <paginator source="/api/sites" v-on:fetch="update"></paginator>
             </div>
         </div>
     </div>
@@ -65,23 +66,13 @@
 
         mounted() {
             eventBus.$on('sitesRefresh', () => {
-                this.getSites()
+                eventBus.$emit('paginatorRefresh');
             })
-
-            this.prepareComponent();
         },
 
         methods: {
-            prepareComponent() {
-                this.getSites();
-            },
-
-            getSites() {
-                this.$http
-                        .get('/api/sites')
-                        .then(response => {
-                            this.sites = response.data.length > 0 ? response.data : [];
-                        })
+            update(data) {
+                this.sites = data
             }
         }
     }

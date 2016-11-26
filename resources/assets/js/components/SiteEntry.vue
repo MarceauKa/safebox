@@ -23,9 +23,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button " class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">
-                            Edit Site
-                        </h4>
+                        <h4 class="modal-title" v-if="creating">Create site</h4>
+                        <h4 class="modal-title" v-if="editing">Edit {{ site.name }}</h4>
                     </div>
 
                     <div class="modal-body">
@@ -52,6 +51,7 @@
                                 <label class="col-md-3 control-label">Client</label>
                                 <div class="col-md-7">
                                     <select name="client_id" class="form-control" v-model="form.client_id">
+                                        <option value="">Choose...</option>
                                         <option v-for="client in clients" :value="client.id">{{ client.name }}</option>
                                     </select>
                                 </div>
@@ -75,7 +75,7 @@
                 creating: false,
                 editing: false,
                 site: {},
-                clients: [],
+                clients: {},
                 form: {
                     errors: [],
                     name: '',
@@ -106,9 +106,9 @@
         methods: {
 
             getClients() {
-                this.$http.get('/api/clients')
+                this.$http.get('/api/clients/list')
                         .then(response => {
-                            this.clients = response.data.length > 0 ? response.data : [];
+                            this.clients = response.data
                         })
             },
 

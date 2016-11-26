@@ -16,7 +16,7 @@ class SitesController extends Controller
      */
     public function index()
     {
-        return Site::latest()->with('client')->get();
+        return Site::latest()->with('client')->paginate(25);
     }
 
     /**
@@ -35,11 +35,11 @@ class SitesController extends Controller
      */
     public function lists()
     {
-        $clients = Site::orderBy('name', 'asc')->get();
+        $sites = Site::orderBy('name', 'asc')->get();
 
-        if (!$clients->isEmpty())
+        if (!$sites->isEmpty())
         {
-            return $clients->pluck('name', 'id')->toArray();
+            return $sites->pluck('name', 'id')->toArray();
         }
 
         return [];

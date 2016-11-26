@@ -18,5 +18,8 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
             'api_token' => str_random(60),
         ]);
+
+        DB::table('clients')->truncate();
+        factory(\App\Models\Client::class, 100)->create();
     }
 }

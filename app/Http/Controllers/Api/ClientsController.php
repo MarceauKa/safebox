@@ -16,7 +16,7 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        return Client::latest()->get();
+        return Client::latest()->paginate(20);
     }
 
     /**
@@ -24,11 +24,11 @@ class ClientsController extends Controller
      */
     public function lists()
     {
-        $clients = Client::orderBy('name', 'asc')->get();
+        $clients = Client::orderBy('name', 'asc')->get(['id', 'name']);
 
         if (!$clients->isEmpty())
         {
-            return $clients->pluck('name', 'id')->toArray();
+            return $clients->toArray();
         }
 
         return [];
