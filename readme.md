@@ -13,14 +13,22 @@ L'application est développée sous **Laravel 5.3** et **Vue.js 2**. Les donnée
 - Gulp
 - NPM
 
-1. Installation se fait sous composer:
+### 1. Installation se fait sous composer
+
 ```bash
 composer create-project 404labfr/safebox
 ```
 
-2. Configuration dans le fichier `.env`.
+### 2. Configuration et migration
 
-3. Installation des assets:
+La configuration se fait dans le fichier `.env`.  
+Une fois la base de données configurée, lancez les migrations.
+
+```bash
+artisan migrate --seed
+```
+
+### 3. Installation des assets
 ```bash
 npm install
 gulp
@@ -33,7 +41,10 @@ artisan serve
 
 ## Documentation
 
-A venir.
+### Utilisateur par défaut
+
+Email: admin@safebox.com
+Mot de passe: password
 
 ## Contribuer
 

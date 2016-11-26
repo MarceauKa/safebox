@@ -56,7 +56,7 @@ class ClientsController extends Controller
         $this->validate($request, [
             'name'  => 'required|max:255',
             'email' => 'required|email',
-            'phone' => 'required|max:12',
+            'phone' => 'required',
         ]);
 
         $client = new Client();
@@ -80,7 +80,7 @@ class ClientsController extends Controller
         $this->validate($request, [
             'name'  => 'required|max:255',
             'email' => 'required|email',
-            'phone' => 'required|max:12',
+            'phone' => 'required',
         ]);
 
         $client = Client::findOrFail($id);

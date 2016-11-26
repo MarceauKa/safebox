@@ -24,8 +24,8 @@ $factory->define(\App\Models\User::class, function (Faker\Generator $faker) {
 
 $factory->define(\App\Models\Client::class, function (\Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $faker->firstname . ' ' . $faker->lastName,
         'email' => $faker->safeEmail,
-        'phone' => $faker->phoneNumber
+        'phone' => $faker->e164PhoneNumber
     ];
 });
