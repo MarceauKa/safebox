@@ -13,10 +13,10 @@
                 <search></search>
             </div>
         </div>
+        <client-entry></client-entry>
+        <site-entry></site-entry>
     </div>
-
-    <client-entry></client-entry>
-    <site-entry></site-entry>
+    @include('partials.footer')
 </div>
 @include('partials.scripts')
 </body>

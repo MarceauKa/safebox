@@ -8,6 +8,7 @@
             @yield('content')
         </div>
     </div>
+    @include('partials.footer')
     @include('partials.scripts')
 </body>
 </html>
