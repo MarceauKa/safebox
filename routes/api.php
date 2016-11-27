@@ -21,6 +21,8 @@ Route::group([
         return $request->user();
     });
 
+    $router->post('search/all', 'Api\SearchController@all');
+
     $router->get('clients/list', 'Api\ClientsController@lists');
     $router->resource('clients', 'Api\ClientsController');
 

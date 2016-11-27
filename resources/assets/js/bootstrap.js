@@ -17,6 +17,7 @@ Vue.http.interceptors.push((request, next) => {
     next();
 });
 
+Vue.component('search', require('./components/Search.vue'));
 Vue.component('paginator', require('./components/Paginator.vue'));
 Vue.component('client-entry', require('./components/ClientEntry.vue'));
 Vue.component('site-entry', require('./components/SiteEntry.vue'));
