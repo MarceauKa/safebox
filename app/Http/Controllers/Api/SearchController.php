@@ -21,14 +21,14 @@ class SearchController extends Controller
 
         try
         {
-            $search['clients'] = Client::search($query)->get(5);
+            $search['clients'] = Client::search($query)->take(5)->get();
         } catch (\Exception $e) {
             unset($e);
         }
 
         try
         {
-            $search['sites'] = Site::search($query)->get(5);
+            $search['sites'] = Site::search($query)->take(5)->get();
         } catch (\Exception $e) {
             unset($e);
         }
