@@ -1,7 +1,7 @@
 {
     "name": "404labfr/safebox",
-    "description": "Safebox is a tool to manages your websites, accounts, clients, procedures and more. Built with Laravel 5.",
-    "keywords": ["laravel", "application", "passwords", "accounts", "clients", "domains"],
+    "description": "Safebox is a tool to manage your websites, accounts, clients, procedures and more. Built with Laravel 5.",
+    "keywords": ["laravel", "application", "passwords", "accounts", "clients", "domains", "manage"],
     "license": "MIT",
     "type": "project",
     "require": {
