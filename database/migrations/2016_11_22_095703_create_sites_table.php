@@ -17,9 +17,9 @@ class CreateSitesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('url');
-            $table->integer('client_id')->index();
+            $table->integer('client_id')->unsigned()->index();
             $table->timestamps();
-            $table->foreign('client_id')->references('clients')->on('id')->onDelete('cascade');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 
@@ -31,7 +31,7 @@ class CreateSitesTable extends Migration
     public function down()
     {
         Schema::table('sites', function (Blueprint $table) {
-            $table->dropForeign(['sites_site_id_foreign']);
+            $table->dropForeign('sites_client_id_foreign');
         });
 
         Schema::dropIfExists('sites');

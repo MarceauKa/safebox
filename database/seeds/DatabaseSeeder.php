@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+    	Schema::disableForeignKeyConstraints();
+
         DB::table('users')->truncate();
         DB::table('users')->insert([
             'name'     => 'admin',
@@ -21,5 +23,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('clients')->truncate();
         factory(\App\Models\Client::class, 100)->create();
+
+        Schema::enableForeignKeyConstraints();
     }
 }
