@@ -24,9 +24,11 @@ Route::group([
     $router->post('search/all', 'Api\SearchController@all');
 
     $router->get('clients/list', 'Api\ClientsController@lists');
+    $router->get('clients/history/{id}', 'Api\ClientsController@history');
     $router->resource('clients', 'Api\ClientsController');
 
-    $router->resource('sites/list', 'Api\SitesController@lists');
+    $router->get('sites/list', 'Api\SitesController@lists');
+    $router->get('sites/history/{id}', 'Api\SitesController@history');
     $router->resource('sites', 'Api\SitesController');
 
     $router->resource('accounts', 'Api\AccountsController');

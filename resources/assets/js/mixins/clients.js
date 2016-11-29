@@ -14,6 +14,10 @@ module.exports = {
 
         deleteClient: (client) => {
             eventBus.$emit('clientEntryDelete', client)
+        },
+
+        showClientHistory: (client) => {
+            eventBus.$emit('clientHistoryShow', client)
         }
     }
 }

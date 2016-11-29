@@ -14,6 +14,10 @@ module.exports = {
 
         deleteSite: (site) => {
             eventBus.$emit('siteEntryDelete', site)
+        },
+
+        showSiteHistory: (site) => {
+            eventBus.$emit('siteHistoryShow', site)
         }
     }
 }

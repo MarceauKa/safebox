@@ -1,26 +1,30 @@
 
-window._ = require('lodash');
+window._ = require('lodash')
 
-window.$ = window.jQuery = require('jquery');
+window.$ = window.jQuery = require('jquery')
 
-require('bootstrap-sass');
+require('bootstrap-sass')
 
-window.Vue = require('vue');
-require('vue-resource');
+window.Vue = require('vue')
+require('vue-resource')
 
-window.eventBus = new Vue();
+window.eventBus = new Vue()
 
 Vue.http.interceptors.push((request, next) => {
-    request.headers.set('X-CSRF-TOKEN', $('meta[name="csrf-token"]:eq(0)').attr('content'));
-    request.headers.set('Authorization', 'Bearer ' + $('meta[name="api-token"]:eq(0)').attr('content'));
+    request.headers.set('X-CSRF-TOKEN', $('meta[name="csrf-token"]:eq(0)').attr('content'))
+    request.headers.set('Authorization', 'Bearer ' + $('meta[name="api-token"]:eq(0)').attr('content'))
 
-    next();
+    next()
 });
 
-Vue.component('search', require('./components/Search.vue'));
-Vue.component('paginator', require('./components/Paginator.vue'));
-Vue.component('client-entry', require('./components/ClientEntry.vue'));
-Vue.component('site-entry', require('./components/SiteEntry.vue'));
-Vue.component('clients', require('./components/Clients.vue'));
-Vue.component('sites', require('./components/Sites.vue'));
-Vue.component('accounts', require('./components/Accounts.vue'));
+Vue.filter('capitalize', function (value) {
+    return _.capitalize(value)
+})
+
+Vue.component('search', require('./components/Search.vue'))
+Vue.component('paginator', require('./components/Paginator.vue'))
+Vue.component('client-entry', require('./components/ClientEntry.vue'))
+Vue.component('site-entry', require('./components/SiteEntry.vue'))
+Vue.component('clients', require('./components/Clients.vue'))
+Vue.component('sites', require('./components/Sites.vue'))
+Vue.component('accounts', require('./components/Accounts.vue'))

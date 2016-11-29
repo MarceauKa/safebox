@@ -4,18 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 class Client extends Model
 {
-    use Searchable;
+    use Searchable, RevisionableTrait;
 
     /** @var array  */
     protected $visible = [
         'id',
         'name',
         'email',
-        'phone',
+        'phone'
     ];
+
+    /** @var bool */
+    protected $revisionCleanup = true;
+
+    /** @var int */
+    protected $historyLimit = 20;
+
+    /** @var array */
+    protected $keepRevisionOf = array(
+        'name',
+        'phone',
+        'email'
+    );
 
     /**
      * Get the indexable data array for the model.

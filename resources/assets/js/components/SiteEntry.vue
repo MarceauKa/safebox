@@ -1,10 +1,10 @@
 <template>
     <div>
+        <!-- Modal Show -->
         <div class="modal fade" id="modal-show-site" tabindex="-1" role="dialog" v-show="site">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button " class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title">Site - {{ site.name }}</h4>
                     </div>
                     <div class="modal-body">
@@ -18,13 +18,13 @@
                 </div>
             </div>
         </div>
+        <!-- Modal create / edit -->
         <div class="modal fade" id="modal-form-site" tabindex="-1" role="dialog" v-show="site">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button " class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" v-if="creating">Create site</h4>
-                        <h4 class="modal-title" v-if="editing">Edit {{ site.name }}</h4>
+                        <h4 class="modal-title" v-if="editing">Edit {{ form.name }}</h4>
                     </div>
 
                     <div class="modal-body">
@@ -59,11 +59,51 @@
                         </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">History</button>
                             <button type="button" class="btn btn-primary" @click="save">Save</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- Modal history -->
+        <div class="modal fade" id="modal-site-history" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">History - {{ site.name }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div v-if="history.length > 0">
+                            <div v-for="dates in history">
+                                <h4>{{ dates.date }}</h4>
+                                <table class="table table-striped table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th>Field</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="entry in dates.entries">
+                                        <td>{{ entry.key | capitalize }}</td>
+                                        <td><code>{{ entry.old_value }}</code></td>
+                                        <td><code>{{ entry.new_value }}</code></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="alert alert-info" v-if="history.length == 0">There's no history for this site.</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" @click="showEdit(site)">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -76,6 +116,7 @@
                 editing: false,
                 site: {},
                 clients: {},
+                history: [],
                 form: {
                     errors: [],
                     name: '',
@@ -101,6 +142,12 @@
             eventBus.$on('siteEntryDelete', (site) => {
                 this.delete(site)
             })
+
+            eventBus.$on('siteHistoryShow', (site) => {
+                this.showHistory(site)
+            })
+
+            this.prepareComponent()
         },
 
         methods: {
@@ -113,28 +160,51 @@
             },
 
             prepareComponent() {
-                $('#create-form-site').on('shown.bs.modal', () => {
+                $('#modal-form-site').on('shown.bs.modal', () => {
                     $('#input-site-name').focus()
                 })
             },
 
             show(site) {
-                this.getClients();
+                this.getClients()
+
                 this.$http['get']('/api/sites/' + site.id)
                         .then(response => {
-                            this.site = response.data;
-                            $('#modal-show-site').modal('show');
+                            this.site = response.data
+                            $('#modal-show-site').modal('show')
                         })
                         .catch(response => {
-                            console.log(response);
+                            console.log(response)
                         })
             },
 
             showCreate() {
-                this.getClients();
-                this.editing = false;
-                this.creating = true;
+                this.getClients()
+
+                this.editing = false
+                this.creating = true
+                this.form.id = null
+                this.form.name = ''
+                this.form.url = ''
+                this.form.client_id = null
+
                 $('#modal-form-site').modal('show')
+            },
+
+            showHistory(site) {
+                this.$http['get']('/api/sites/history/' + site.id)
+                        .then(response => {
+                    this.site = response.data.site
+                    this.history = response.data.history
+
+                    $('#modal-form-site').modal('hide')
+                    $('#modal-site-history').modal('show')
+                })
+                .catch(response => {
+                    this.site = {}
+                    this.history = []
+                    console.log(response)
+                })
             },
 
             save() {
@@ -146,21 +216,23 @@
             },
 
             clearShow() {
-                this.site = {};
-                $('#modal-show-site').modal('hide');
+                this.site = {}
+                $('#modal-show-site').modal('hide')
             },
 
             showEdit(site) {
-                this.getClients();
-                this.clearShow();
-                this.editing = true;
-                this.creating = false;
-                this.form.id = site.id;
-                this.form.name = site.name;
-                this.form.url = site.url;
-                this.form.client_id = site.client_id;
+                this.getClients()
+                this.clearShow()
 
-                $('#modal-form-site').modal('show');
+                this.editing = true
+                this.creating = false
+                this.form.id = site.id
+                this.form.name = site.name
+                this.form.url = site.url
+                this.form.client_id = site.client_id
+
+                $('#modal-site-history').modal('hide')
+                $('#modal-form-site').modal('show')
             },
 
             persist(method, uri, form, modal) {
@@ -168,27 +240,27 @@
 
                 this.$http[method](uri, form)
                     .then(response => {
-                        form.name = '';
-                        form.url = '';
-                        form.client_id = [];
+                        form.name = ''
+                        form.url = ''
+                        form.client_id = []
 
-                        this.editing = false;
-                        this.creating = false;
-                        eventBus.$emit('sitesRefresh');
-                        $(modal).modal('hide');
+                        this.editing = false
+                        this.creating = false
+                        eventBus.$emit('sitesRefresh')
+                        $(modal).modal('hide')
                     })
                     .catch(response => {
                         if (typeof response.data === 'object') {
-                            form.errors = _.flatten(_.toArray(response.data));
+                            form.errors = _.flatten(_.toArray(response.data))
                         } else {
-                            form.errors = ['Something went wrong. Please try again.'];
+                            form.errors = ['Something went wrong. Please try again.']
                         }
                     })
             },
 
             delete(site) {
                 this.$http.delete('/api/sites/' + site.id).then(response => {
-                    eventBus.$emit('sitesRefresh');
+                    eventBus.$emit('sitesRefresh')
                 })
             }
         }

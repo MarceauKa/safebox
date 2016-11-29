@@ -107,4 +107,28 @@ class ClientsController extends Controller
 
         return response('ok', 200);
     }
+
+    /**
+     * @param   int $id
+     * @return  JsonResponse
+     */
+    public function history($id)
+    {
+        $client = Client::with('revisionHistory')->findOrFail($id);
+        $history = [];
+
+        if (!$client->revisionHistory->isEmpty())
+        {
+            $history = $client->revisionHistory->groupBy(function ($item, $key) {
+                return substr($item->created_at, 0, 10);
+            })->map(function($item, $key) {
+                return collect(['date' => $key, 'entries' => $item]);
+            })->values();
+        }
+
+        return new JsonResponse([
+            'client'  => $client,
+            'history' => $history
+        ]);
+    }
 }

@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 class Account extends Model
 {
+    use RevisionableTrait;
+
     /** @var array */
     public static $accounts_type = [
         'ssh'   => 'SSH',

@@ -61,8 +61,8 @@ class SitesController extends Controller
 
         $site = new Site();
         $site->forceFill([
-            'name' => $request->get('name'),
-            'url' => $request->get('url'),
+            'name'      => $request->get('name'),
+            'url'       => $request->get('url'),
             'client_id' => $request->get('client_id')
         ])->save();
 
@@ -87,8 +87,8 @@ class SitesController extends Controller
         ]);
 
         $site->forceFill([
-            'name' => $request->get('name'),
-            'url' => $request->get('url'),
+            'name'      => $request->get('name'),
+            'url'       => $request->get('url'),
             'client_id' => $request->get('client_id')
         ])->save();
 
@@ -109,5 +109,33 @@ class SitesController extends Controller
         $site->delete();
 
         return response('ok', 200);
+    }
+
+    /**
+     * @param   int $id
+     * @return  JsonResponse
+     */
+    public function history($id)
+    {
+        $site = Site::with('revisionHistory')->findOrFail($id);
+        $history = [];
+
+        if (!$site->revisionHistory->isEmpty())
+        {
+            $history = $site->revisionHistory->groupBy(function ($item, $key)
+            {
+                return substr($item->created_at, 0, 10);
+            })->map(function ($item, $key)
+            {
+                return collect(['date'    => $key,
+                                'entries' => $item
+                ]);
+            })->values();
+        }
+
+        return new JsonResponse([
+            'site'    => $site,
+            'history' => $history
+        ]);
     }
 }
