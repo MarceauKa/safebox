@@ -2,13 +2,13 @@
 <html lang="en">
 @include('partials.meta')
 <body>
-    <div id="app">
-        @include('partials.nav')
-        <div class="container">
-            @yield('content')
-        </div>
+<div id="app">
+    @include('partials.nav')
+    <div class="container">
+        @yield('content')
     </div>
     @include('partials.footer')
-    @include('partials.scripts')
+</div>
+@include('partials.scripts')
 </body>
 </html>
