@@ -10,7 +10,7 @@
             <div class="panel-heading">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>All sites</span>
-                    <a class="action-link" @click="createSite">Create New Site</a>
+                    <a class="btn btn-sm btn-primary" @click="createSite">Create New Site</a>
                 </div>
             </div>
             <div class="panel-body">

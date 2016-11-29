@@ -3,7 +3,8 @@
 $body-bg: #f5f8fa;
 
 // Borders
-$laravel-border-color: darken($body-bg, 10%);
+$border-radius: 0;
+$laravel-border-color: darken($body-bg, 15%);
 $list-group-border: $laravel-border-color;
 $navbar-default-border: $laravel-border-color;
 $panel-default-border: $laravel-border-color;
@@ -20,7 +21,7 @@ $brand-danger:  #bf5329;
 $font-family-sans-serif: "Raleway", sans-serif;
 $font-size-base: 14px;
 $line-height-base: 1.6;
-$text-color: #636b6f;
+$text-color: #4c5458;
 
 // Navbar
 $navbar-default-bg: #fff;

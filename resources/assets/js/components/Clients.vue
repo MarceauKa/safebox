@@ -4,7 +4,7 @@
             <div class="panel-heading">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>All clients</span>
-                    <a class="action-link" @click="createClient">Create New Client</a>
+                    <a class="btn btn-sm btn-primary" @click="createClient">Create New Client</a>
                 </div>
             </div>
 

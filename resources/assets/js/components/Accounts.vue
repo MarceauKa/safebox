@@ -17,7 +17,7 @@
                         All accounts
                     </span>
 
-                    <a class="action-link" @click="showCreateAccountForm">
+                    <a class="btn btn-sm btn-primary" @click="showCreateAccountForm">
                         Create New Account
                     </a>
                 </div>
