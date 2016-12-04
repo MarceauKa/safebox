@@ -22,6 +22,7 @@ Vue.filter('capitalize', function (value) {
 })
 
 Vue.component('search', require('./components/Search.vue'))
+Vue.component('password', require('./components/Password.vue'))
 Vue.component('paginator', require('./components/Paginator.vue'))
 Vue.component('client-entry', require('./components/ClientEntry.vue'))
 Vue.component('site-entry', require('./components/SiteEntry.vue'))

@@ -24,9 +24,7 @@
                         <td style="vertical-align: middle;">{{ account.accountable.name }}</td>
                         <td style="vertical-align: middle;"><span class="label label-default">{{ account.type_name }}</span></td>
                         <td style="vertical-align: middle;">{{ account.credential_login }}</td>
-                        <td style="vertical-align: middle;">
-                            <a @click="copyToClipboard(account, $event)">Copy</a>
-                        </td>
+                        <td style="vertical-align: middle;"><password :password="account.credential_password"></password></td>
                         <td>
                             <div class="btn-group btn-group-xs">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,18 +67,6 @@
         },
 
         methods: {
-            copyToClipboard(account, event) {
-
-                let $elem = $(event.target).eq(0),
-                    $input = $('<input type="text" />').attr('value', account.credential_password);
-
-                $elem.fadeOut(200).fadeIn(200);
-                $input.appendTo('body');
-                $input.select();
-                document.execCommand('copy');
-                $input.remove();
-            },
-
             update(data) {
                 this.accounts = data
             }
