@@ -9,6 +9,19 @@ class Account extends Model
 {
     use RevisionableTrait;
 
+    /** @var bool */
+    protected $revisionCleanup = true;
+
+    /** @var int  */
+    protected $historyLimit = 500;
+
+    /** @var array */
+    protected $keepRevisionOf = array(
+        'type',
+        'credential_login',
+        'credential_password'
+    );
+
     /** @var array */
     public static $accounts_type = [
         'ssh'   => 'SSH',

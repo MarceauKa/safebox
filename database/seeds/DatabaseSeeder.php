@@ -22,7 +22,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('clients')->truncate();
-        factory(\App\Models\Client::class, 100)->create();
+        factory(\App\Models\Client::class, 30)->create();
+
+        DB::table('sites')->truncate();
+        factory(\App\Models\Site::class, 50)->create();
 
         Schema::enableForeignKeyConstraints();
     }

@@ -15,6 +15,7 @@
         </div>
         <client-entry></client-entry>
         <site-entry></site-entry>
+        <account-entry></account-entry>
     </div>
     @include('partials.footer')
 </div>

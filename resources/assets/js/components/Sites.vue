@@ -1,9 +1,3 @@
-<style scoped>
-    .m-b-none {
-        margin-bottom: 0;
-    }
-</style>
-
 <template>
     <div>
         <div class="panel panel-default">
@@ -14,8 +8,8 @@
                 </div>
             </div>
             <div class="panel-body">
-                <p class="m-b-none" v-if="sites.length === 0">You have not created any sites.</p>
-                <table class="table table-borderless m-b-none" v-if="sites.length > 0">
+                <p style="margin-bottom: 0;" v-if="sites.length == 0">You have not created any sites.</p>
+                <table class="table table-borderless" style="margin-bottom: 0;" v-if="sites.length > 0">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -51,8 +45,8 @@
 
 <script>
 
-    import clientMixins from '../mixins/clients';
-    import siteMixins from '../mixins/sites';
+    import clientMixins from '../mixins/clients'
+    import siteMixins from '../mixins/sites'
 
     export default {
 

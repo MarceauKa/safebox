@@ -1,11 +1,11 @@
 <template>
     <div>
         <!-- Modal Show -->
-        <div class="modal fade" id="modal-show-site" tabindex="-1" role="dialog" v-show="site">
+        <div class="modal fade" id="modal-show-account" tabindex="-1" role="dialog" v-show="account">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Site - {{ site.name }}</h4>
+                        <h4 class="modal-title">Account</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -13,18 +13,18 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="showEdit(site)">Edit</button>
+                        <button type="button" class="btn btn-primary" @click="showEdit(account)">Edit</button>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Modal create / edit -->
-        <div class="modal fade" id="modal-form-site" tabindex="-1" role="dialog" v-show="site">
+        <div class="modal fade" id="modal-form-account" tabindex="-1" role="dialog" v-show="account">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" v-if="creating">Create site</h4>
-                        <h4 class="modal-title" v-if="editing">Edit {{ form.name }}</h4>
+                        <h4 class="modal-title" v-if="creating">Create account</h4>
+                        <h4 class="modal-title" v-if="editing">Edit account</h4>
                     </div>
 
                     <div class="modal-body">
@@ -34,26 +34,37 @@
                                 <li v-for="error in form.errors">{{ error }}</li>
                             </ul>
                         </div>
-                        <form class="form-horizontal" role="form">
+                        <form class="form-horizontal" role="form" autocomplete="off">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Name</label>
+                                <label class="col-md-3 control-label">Site</label>
                                 <div class="col-md-7">
-                                    <input id="input-site-name" type="text" class="form-control" v-model="form.name">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">URL</label>
-                                <div class="col-md-7">
-                                    <input type="text" class="form-control" name="url" v-model="form.url">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Client</label>
-                                <div class="col-md-7">
-                                    <select name="client_id" class="form-control" v-model="form.client_id">
+                                    <select name="site_id" v-model="form.site_id" class="form-control">
                                         <option value="">Choose...</option>
-                                        <option v-for="client in clients" :value="client.id">{{ client.name }}</option>
+                                        <option v-for="(site, index) in sites" :value="index" v-text="site"></option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Type</label>
+                                <div class="col-md-7">
+                                    <select name="type" v-model="form.type" class="form-control">
+                                        <option value="">Choose...</option>
+                                        <option v-for="(type, key, index) in types" :value="key">{{ type }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Identifiant</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" id="input-account-login" name="credential_login"
+                                           v-model="form.credential_login" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Mot de passe</label>
+                                <div class="col-md-7">
+                                    <input type="password" class="form-control" id="input-account-password" name="credential_password"
+                                           v-model="form.credential_password" autocomplete="off">
                                 </div>
                             </div>
                         </form>
@@ -67,11 +78,11 @@
             </div>
         </div>
         <!-- Modal history -->
-        <div class="modal fade" id="modal-site-history" tabindex="-1" role="dialog">
+        <div class="modal fade" id="modal-account-history" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">History - {{ site.name }}</h4>
+                        <h4 class="modal-title">History</h4>
                     </div>
                     <div class="modal-body">
                         <div v-if="history.length > 0">
@@ -99,7 +110,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="showEdit(site)">Edit</button>
+                        <button type="button" class="btn btn-primary" @click="showEdit(account)">Edit</button>
                     </div>
                 </div>
             </div>
@@ -114,60 +125,69 @@
             return {
                 creating: false,
                 editing: false,
-                site: {},
-                clients: {},
+                types: [],
+                account: {},
+                sites: {},
                 history: [],
                 form: {
                     errors: [],
-                    name: '',
-                    url: '',
-                    client_id: ''
+                    type: '',
+                    site_id: '',
+                    credential_login: '',
+                    credential_password: ''
                 }
             };
         },
 
         mounted() {
-            eventBus.$on('siteEntryShow', (site) => {
-                this.show(site)
+            eventBus.$on('accountEntryShow', (account) => {
+                this.show(account)
             })
 
-            eventBus.$on('siteEntryCreate', () => {
+            eventBus.$on('accountEntryCreate', () => {
                 this.showCreate()
             })
 
-            eventBus.$on('siteEntryEdit', (site) => {
-                this.showEdit(site)
+            eventBus.$on('accountEntryEdit', (account) => {
+                this.showEdit(account)
             })
 
-            eventBus.$on('siteEntryDelete', (site) => {
-                this.delete(site)
+            eventBus.$on('accountEntryDelete', (account) => {
+                this.delete(account)
             })
 
-            eventBus.$on('siteHistoryShow', (site) => {
-                this.showHistory(site)
+            eventBus.$on('accountHistoryShow', (account) => {
+                this.showHistory(account)
             })
 
-            this.getClients()
-
-            $('#modal-form-site').on('shown.bs.modal', () => {
-                $('#input-site-name').focus()
-            })
+            this.getTypes()
+            this.getSites()
         },
 
         methods: {
 
-            getClients() {
-                this.$http.get('/api/clients/list')
+            getTypes() {
+                this.$http.get('/api/accounts/types')
                         .then(response => {
-                            this.clients = response.data
+                            this.types = response.data
+                        })
+                        .catch(response => {
+                            console.log(response)
                         })
             },
 
-            show(site) {
-                this.$http['get']('/api/sites/' + site.id)
+            getSites() {
+                this.$http.get('/api/sites/list')
                         .then(response => {
-                            this.site = response.data
-                            $('#modal-show-site').modal('show')
+                            this.sites = response.data
+                        })
+            },
+
+            show(account) {
+                this.$http['get']('/api/accounts/' + account.id)
+                        .then(response => {
+                            this.account = response.data
+                            $('#modal-show-account').modal('show')
                         })
                         .catch(response => {
                             console.log(response)
@@ -178,24 +198,27 @@
                 this.editing = false
                 this.creating = true
                 this.form.id = null
-                this.form.name = ''
-                this.form.url = ''
-                this.form.client_id = null
+                this.form.site_id = ''
+                this.form.type = ''
+                this.form.credential_login =  ''
+                this.form.credential_password =  ''
 
-                $('#modal-form-site').modal('show')
+                $('#modal-form-account').modal('show')
+                $('#input-account-login').val('')
+                $('#input-account-password').val('')
             },
 
-            showHistory(site) {
-                this.$http['get']('/api/sites/history/' + site.id)
+            showHistory(account) {
+                this.$http['get']('/api/accounts/history/' + account.id)
                         .then(response => {
-                    this.site = response.data.site
+                    this.account = response.data.account
                     this.history = response.data.history
 
-                    $('#modal-form-site').modal('hide')
-                    $('#modal-site-history').modal('show')
+                    $('#modal-form-account').modal('hide')
+                    $('#modal-account-history').modal('show')
                 })
                 .catch(response => {
-                    this.site = {}
+                    this.sites = {}
                     this.history = []
                     console.log(response)
                 })
@@ -203,29 +226,30 @@
 
             save() {
                 if (this.editing) {
-                    this.persist('put', '/api/sites/' + this.form.id, this.form, '#modal-form-site');
+                    this.persist('put', '/api/accounts/' + this.form.id, this.form, '#modal-form-account');
                 } else if (this.creating) {
-                    this.persist('post', '/api/sites', this.form, '#modal-form-site')
+                    this.persist('post', '/api/accounts', this.form, '#modal-form-account')
                 }
             },
 
             clearShow() {
                 this.site = {}
-                $('#modal-show-site').modal('hide')
+                $('#modal-show-account').modal('hide')
             },
 
-            showEdit(site) {
+            showEdit(account) {
                 this.clearShow()
 
                 this.editing = true
                 this.creating = false
-                this.form.id = site.id
-                this.form.name = site.name
-                this.form.url = site.url
-                this.form.client_id = site.client_id
+                this.form.id = account.id
+                this.form.type = account.type
+                this.form.site_id = account.accountable.id
+                this.form.credential_login = account.credential_login
+                this.form.credential_password = account.credential_password
 
-                $('#modal-site-history').modal('hide')
-                $('#modal-form-site').modal('show')
+                $('#modal-account-history').modal('hide')
+                $('#modal-form-account').modal('show')
             },
 
             persist(method, uri, form, modal) {
@@ -233,13 +257,14 @@
 
                 this.$http[method](uri, form)
                     .then(response => {
-                        form.name = ''
-                        form.url = ''
-                        form.client_id = []
+                        form.type = ''
+                        form.site_id = ''
+                        form.credential_login = ''
+                        form.credential_password = ''
 
                         this.editing = false
                         this.creating = false
-                        eventBus.$emit('sitesRefresh')
+                        eventBus.$emit('accountsRefresh')
                         $(modal).modal('hide')
                     })
                     .catch(response => {
@@ -251,9 +276,9 @@
                     })
             },
 
-            delete(site) {
-                this.$http.delete('/api/sites/' + site.id).then(response => {
-                    eventBus.$emit('sitesRefresh')
+            delete(account) {
+                this.$http.delete('/api/accounts/' + account.id).then(response => {
+                    eventBus.$emit('accountsRefresh')
                 })
             }
         }

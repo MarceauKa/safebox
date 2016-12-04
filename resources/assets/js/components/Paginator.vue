@@ -57,8 +57,8 @@
             },
 
             isLastPage() {
-                this.is_last_page = this.current_page == this.last_page;
-                return this.is_last_page;
+                this.is_last_page = this.current_page == this.last_page
+                return this.is_last_page
             },
 
             next() {
@@ -74,23 +74,23 @@
             },
 
             fetch(url = null) {
-                let query = url === null ? this.source : url;
+                let query = url === null ? this.source : url
 
                 this.$http
                         .get(query)
                         .then(response => {
-                    this.prev_page_url = response.data.prev_page_url;
-                    this.next_page_url = response.data.next_page_url;
-                    this.current_page = response.data.current_page;
-                    this.last_page = response.data.last_page;
-                    this.total = response.data.total;
-                    this.to = response.data.to;
+                    this.prev_page_url = response.data.prev_page_url
+                    this.next_page_url = response.data.next_page_url
+                    this.current_page = response.data.current_page
+                    this.last_page = response.data.last_page
+                    this.total = response.data.total
+                    this.to = response.data.to
 
-                    this.isLastPage();
-                    this.isFirstPage();
+                    this.isLastPage()
+                    this.isFirstPage()
 
-                    this.records = response.data.data;
-                    this.$emit('fetch', this.records);
+                    this.records = response.data.data
+                    this.$emit('fetch', this.records)
                 })
             }
         }
