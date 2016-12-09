@@ -5,7 +5,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Client - {{ client.name }}</h4>
+                        <h4 class="modal-title">{{ $t('clients.singular') }} - {{ client.name }}</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -15,8 +15,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="showEdit(client)">Edit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
+                        <button type="button" class="btn btn-primary" @click="showEdit(client)">{{ $t('app.button_edit') }}</button>
                     </div>
                 </div>
             </div>
@@ -26,32 +26,31 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" v-if="creating">Create client</h4>
-                        <h4 class="modal-title" v-if="editing">Edit {{ form.name }}</h4>
+                        <h4 class="modal-title" v-if="creating">{{ $t('clients.title_create') }}</h4>
+                        <h4 class="modal-title" v-if="editing">{{ $t('clients.title_edit') }} : {{ form.name }}</h4>
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-danger" v-if="form.errors.length > 0">
-                            <p><strong>Whoops!</strong> Something went wrong!</p>
-                            <br>
+                            <p>{{ $t('app.validation_error') }}</p>
                             <ul>
                                 <li v-for="error in form.errors">{{ error }}</li>
                             </ul>
                         </div>
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Name</label>
+                                <label class="col-md-3 control-label">{{ $t('clients.name') }}</label>
                                 <div class="col-md-7">
                                     <input id="input-client-name" type="text" class="form-control" v-model="form.name">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Email</label>
+                                <label class="col-md-3 control-label">{{ $t('clients.email') }}</label>
                                 <div class="col-md-7">
                                     <input type="email" class="form-control" name="email" v-model="form.email">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Phone</label>
+                                <label class="col-md-3 control-label">{{ $t('clients.phone') }}</label>
                                 <div class="col-md-7">
                                     <input type="text" class="form-control" name="phone" v-model="form.phone">
                                 </div>
@@ -59,9 +58,9 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">History</button>
-                        <button type="button" class="btn btn-primary" @click="save">Save Changes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
+                        <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}</button>
+                        <button type="button" class="btn btn-primary" @click="save">{{ $t('app.button_save') }}</button>
                     </div>
                 </div>
             </div>
@@ -71,7 +70,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">History - {{ client.name }}</h4>
+                        <h4 class="modal-title">{{ $t('app.button_history') }} - {{ client.name }}</h4>
                     </div>
                     <div class="modal-body">
                         <div v-if="history.length > 0">
@@ -80,9 +79,9 @@
                                 <table class="table table-striped table-condensed">
                                     <thead>
                                     <tr>
-                                        <th>Field</th>
-                                        <th>From</th>
-                                        <th>To</th>
+                                        <th>{{ $t('history.field') }}</th>
+                                        <th>{{ $t('history.from') }}</th>
+                                        <th>{{ $t('history.to') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -95,11 +94,11 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="alert alert-info" v-if="history.length == 0">There's no history for this client.</div>
+                        <div class="alert alert-info" v-if="history.length == 0">{{ $t('history.empty') }}</div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="showEdit(client)">Edit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
+                        <button type="button" class="btn btn-primary" @click="showEdit(client)">{{ $t('app.button_edit') }}</button>
                     </div>
                 </div>
             </div>
@@ -127,126 +126,126 @@
 
         mounted() {
             eventBus.$on('clientEntryShow', (client) => {
-                this.show(client)
-            })
+                this.show(client);
+            });
 
             eventBus.$on('clientEntryCreate', () => {
-                this.showCreate()
-            })
+                this.showCreate();
+            });
 
             eventBus.$on('clientEntryEdit', (client) => {
-                this.showEdit(client)
-            })
+                this.showEdit(client);
+            });
 
             eventBus.$on('clientEntryDelete', (client) => {
-                this.delete(client)
-            })
+                this.delete(client);
+            });
 
             eventBus.$on('clientHistoryShow', (client) => {
-                this.showHistory(client)
-            })
+                this.showHistory(client);
+            });
 
-            this.prepareComponent()
+            this.prepareComponent();
         },
 
         methods: {
             prepareComponent() {
                 $('#modal-form-client').on('shown.bs.modal', () => {
-                    $('#input-client-name').focus()
-                })
+                    $('#input-client-name').focus();
+                });
             },
 
             show(client) {
                 this.$http['get']('/api/clients/' + client.id)
                         .then(response => {
-                            this.client = response.data
-                            $('#modal-show-client').modal('show')
+                            this.client = response.data;
+                            $('#modal-show-client').modal('show');
                         })
                         .catch(response => {
                             this.client = {};
                             console.log(response);
-                        })
+                        });
             },
 
             showHistory(client) {
                 this.$http['get']('/api/clients/history/' + client.id)
                         .then(response => {
-                        this.client = response.data.client
-                        this.history = response.data.history
-                        $('#modal-form-client').modal('hide')
-                        $('#modal-client-history').modal('show')
+                        this.client = response.data.client;
+                        this.history = response.data.history;
+                        $('#modal-form-client').modal('hide');
+                        $('#modal-client-history').modal('show');
                     })
                     .catch(response => {
-                        this.client = {}
-                        this.history = []
-                        console.log(response)
-                    })
+                        this.client = {};
+                        this.history = [];
+                        console.log(response);
+                    });
             },
 
             showCreate() {
-                this.editing = false
-                this.creating = true
-                this.form.id = null
-                this.form.name = ''
-                this.form.phone = ''
-                this.form.email = ''
+                this.editing = false;
+                this.creating = true;
+                this.form.id = null;
+                this.form.name = '';
+                this.form.phone = '';
+                this.form.email = '';
 
-                $('#modal-form-client').modal('show')
+                $('#modal-form-client').modal('show');
             },
 
             save() {
                 if (this.editing) {
                     this.persist('put', '/api/clients/' + this.form.id, this.form, '#modal-form-client');
                 } else if (this.creating) {
-                    this.persist('post', '/api/clients', this.form, '#modal-form-client')
+                    this.persist('post', '/api/clients', this.form, '#modal-form-client');
                 }
             },
 
             clearShow() {
-                this.client = {}
-                $('#modal-show-client').modal('hide')
+                this.client = {};
+                $('#modal-show-client').modal('hide');
             },
 
             showEdit(client) {
-                this.clearShow()
-                this.editing = true
-                this.creating = false
-                this.form.id = client.id
-                this.form.name = client.name
-                this.form.phone = client.phone
-                this.form.email = client.email
+                this.clearShow();
+                this.editing = true;
+                this.creating = false;
+                this.form.id = client.id;
+                this.form.name = client.name;
+                this.form.phone = client.phone;
+                this.form.email = client.email;
 
-                $('#modal-client-history').modal('hide')
-                $('#modal-form-client').modal('show')
+                $('#modal-client-history').modal('hide');
+                $('#modal-form-client').modal('show');
             },
 
             persist(method, uri, form, modal) {
-                form.errors = []
+                form.errors = [];
 
                 this.$http[method](uri, form)
                     .then(response => {
-                        form.name = ''
-                        form.email = ''
-                        form.phone = []
+                        form.name = '';
+                        form.email = '';
+                        form.phone = [];
 
-                        this.editing = false
-                        this.creating = false
-                        eventBus.$emit('clientsRefresh')
-                        $(modal).modal('hide')
+                        this.editing = false;
+                        this.creating = false;
+                        eventBus.$emit('clientsRefresh');
+                        $(modal).modal('hide');
                     })
                     .catch(response => {
                         if (typeof response.data === 'object') {
-                            form.errors = _.flatten(_.toArray(response.data))
+                            form.errors = _.flatten(_.toArray(response.data));
                         } else {
-                            form.errors = ['Something went wrong. Please try again.']
+                            form.errors = [$t('app.http_error')];
                         }
-                    })
+                    });
             },
 
             delete(client) {
                 this.$http.delete('/api/clients/' + client.id)
                         .then(response => {
-                    eventBus.$emit('clientsRefresh')
+                    eventBus.$emit('clientsRefresh');
                 })
             }
         }

@@ -3,18 +3,18 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>All sites</span>
-                    <a class="btn btn-sm btn-primary" @click="createSite">Create New Site</a>
+                    <span>{{ $t('sites.title_all') }}</span>
+                    <a class="btn btn-sm btn-primary" @click="createSite">{{ $t('app.button_create') }}</a>
                 </div>
             </div>
             <div class="panel-body">
-                <p style="margin-bottom: 0;" v-if="sites.length == 0">You have not created any sites.</p>
+                <p style="margin-bottom: 0;" v-if="sites.length == 0">{{ $t('sites.empty') }}</p>
                 <table class="table table-borderless" style="margin-bottom: 0;" v-if="sites.length > 0">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>URL</th>
-                        <th>Client</th>
+                        <th>{{ $t('sites.name') }}</th>
+                        <th>{{ $t('sites.url') }}</th>
+                        <th>{{ $t('sites.client') }}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -26,11 +26,11 @@
                         <td>
                             <div class="btn-group btn-group-xs">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Action <span class="caret"></span>
+                                    {{ $t('app.button_action') }} <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a @click="editSite(site)">Edit</a></li>
-                                    <li><a @click="deleteSite(site)">Delete</a></li>
+                                    <li><a @click="editSite(site)">{{ $t('app.button_edit') }}</a></li>
+                                    <li><a @click="deleteSite(site)">{{ $t('app.button_delete') }}</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -45,8 +45,8 @@
 
 <script>
 
-    import clientMixins from '../mixins/clients'
-    import siteMixins from '../mixins/sites'
+    import clientMixins from '../mixins/clients';
+    import siteMixins from '../mixins/sites';
 
     export default {
 
@@ -61,12 +61,12 @@
         mounted() {
             eventBus.$on('sitesRefresh', () => {
                 eventBus.$emit('paginatorRefresh');
-            })
+            });
         },
 
         methods: {
             update(data) {
-                this.sites = data
+                this.sites = data;
             }
         }
     }

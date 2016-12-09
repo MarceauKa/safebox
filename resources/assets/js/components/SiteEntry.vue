@@ -5,15 +5,15 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Site - {{ site.name }}</h4>
+                        <h4 class="modal-title">{{ $t('sites.singular') }} - {{ site.name }}</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="showEdit(site)">Edit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
+                        <button type="button" class="btn btn-primary" @click="showEdit(site)">{{ $t('app.button_edit') }}</button>
                     </div>
                 </div>
             </div>
@@ -23,44 +23,44 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" v-if="creating">Create site</h4>
-                        <h4 class="modal-title" v-if="editing">Edit {{ form.name }}</h4>
+                        <h4 class="modal-title" v-if="creating">{{ $t('sites.title_create') }}</h4>
+                        <h4 class="modal-title" v-if="editing">{{ $t('sites.title_edit') }} - {{ form.name }}</h4>
                     </div>
 
                     <div class="modal-body">
                         <div class="alert alert-danger" v-if="form.errors.length > 0">
-                            <p><strong>Whoops!</strong> Something went wrong!</p><br>
+                            <p>{{ $t('app.validation_error') }}</p>
                             <ul>
                                 <li v-for="error in form.errors">{{ error }}</li>
                             </ul>
                         </div>
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Name</label>
+                                <label class="col-md-3 control-label">{{ $t('sites.name') }}</label>
                                 <div class="col-md-7">
                                     <input id="input-site-name" type="text" class="form-control" v-model="form.name">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">URL</label>
+                                <label class="col-md-3 control-label">{{ $t('sites.url') }}</label>
                                 <div class="col-md-7">
                                     <input type="text" class="form-control" name="url" v-model="form.url">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">Client</label>
+                                <label class="col-md-3 control-label">{{ $t('sites.client') }}</label>
                                 <div class="col-md-7">
                                     <select name="client_id" class="form-control" v-model="form.client_id">
-                                        <option value="">Choose...</option>
+                                        <option value="">{{ $t('app.option_choose') }}</option>
                                         <option v-for="client in clients" :value="client.id">{{ client.name }}</option>
                                     </select>
                                 </div>
                             </div>
                         </form>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">History</button>
-                            <button type="button" class="btn btn-primary" @click="save">Save</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
+                            <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}</button>
+                            <button type="button" class="btn btn-primary" @click="save">{{ $t('app.button_save') }}</button>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">History - {{ site.name }}</h4>
+                        <h4 class="modal-title">{{ $t('app.button_history') }} - {{ site.name }}</h4>
                     </div>
                     <div class="modal-body">
                         <div v-if="history.length > 0">
@@ -80,9 +80,9 @@
                                 <table class="table table-striped table-condensed">
                                     <thead>
                                     <tr>
-                                        <th>Field</th>
-                                        <th>From</th>
-                                        <th>To</th>
+                                        <th>{{ $t('history.field') }}</th>
+                                        <th>{{ $t('history.from') }}</th>
+                                        <th>{{ $t('history.to') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -95,11 +95,11 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="alert alert-info" v-if="history.length == 0">There's no history for this site.</div>
+                        <div class="alert alert-info" v-if="history.length == 0">{{ $t('history.empty') }}</div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="showEdit(site)">Edit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
+                        <button type="button" class="btn btn-primary" @click="showEdit(site)">{{ $t('app.button_edit') }}</button>
                     </div>
                 </div>
             </div>

@@ -13,6 +13,6 @@ class AccountsController extends Controller
      */
     public function index()
     {
-        return view('views.accounts.all')->with(['page_title' => 'All accounts', 'types' => Account::$accounts_type]);
+        return view('views.accounts.all')->with(['page_title' => trans('app.pages.accounts'), 'types' => Account::$accounts_type]);
     }
 }

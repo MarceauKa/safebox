@@ -1,32 +1,55 @@
+/**
+ * Deps
+ */
+window._ = require('lodash');
+window.$ = window.jQuery = require('jquery');
+require('bootstrap-sass');
 
-window._ = require('lodash')
+/**
+ * Vue
+ */
+window.Vue = require('vue');
+require('vue-resource');
 
-window.$ = window.jQuery = require('jquery')
+/**
+ * Events
+ */
+window.eventBus = new Vue();
 
-require('bootstrap-sass')
+/**
+ * i18n
+ */
+Vue.use(require('vue-i18n'));
+Vue.config.lang = $('meta[name="app-locale"]:eq(0)').attr('content');
+Vue.locale('en', require('./lang/en'));
+Vue.locale('fr', require('./lang/fr'));
 
-window.Vue = require('vue')
-require('vue-resource')
-
-window.eventBus = new Vue()
-
+/**
+ * HTTP
+ */
 Vue.http.interceptors.push((request, next) => {
-    request.headers.set('X-CSRF-TOKEN', $('meta[name="csrf-token"]:eq(0)').attr('content'))
-    request.headers.set('Authorization', 'Bearer ' + $('meta[name="api-token"]:eq(0)').attr('content'))
+    request.headers.set('X-CSRF-TOKEN', $('meta[name="csrf-token"]:eq(0)').attr('content'));
+    request.headers.set('Authorization', 'Bearer ' + $('meta[name="api-token"]:eq(0)').attr('content'));
 
-    next()
+    next();
 });
 
+/**
+ * Filters
+ */
 Vue.filter('capitalize', function (value) {
-    return _.capitalize(value)
-})
+    return _.capitalize(value);
+});
 
-Vue.component('search', require('./components/Search.vue'))
-Vue.component('password', require('./components/Password.vue'))
-Vue.component('paginator', require('./components/Paginator.vue'))
-Vue.component('client-entry', require('./components/ClientEntry.vue'))
-Vue.component('site-entry', require('./components/SiteEntry.vue'))
-Vue.component('account-entry', require('./components/AccountEntry.vue'))
-Vue.component('clients', require('./components/Clients.vue'))
-Vue.component('sites', require('./components/Sites.vue'))
-Vue.component('accounts', require('./components/Accounts.vue'))
+/**
+ * Components
+ */
+Vue.component('search', require('./components/Search.vue'));
+Vue.component('password', require('./components/Password.vue'));
+Vue.component('paginator', require('./components/Paginator.vue'));
+Vue.component('client-entry', require('./components/ClientEntry.vue'));
+Vue.component('site-entry', require('./components/SiteEntry.vue'));
+Vue.component('account-entry', require('./components/AccountEntry.vue'));
+Vue.component('clients', require('./components/Clients.vue'));
+Vue.component('sites', require('./components/Sites.vue'));
+Vue.component('accounts', require('./components/Accounts.vue'));

@@ -12,6 +12,6 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        return view('views.clients.all')->with(['page_title' => 'All clients']);
+        return view('views.clients.all')->with(['page_title' => trans('app.pages.clients')]);
     }
 }

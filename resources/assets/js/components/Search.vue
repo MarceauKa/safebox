@@ -17,28 +17,28 @@
 <template>
     <div>
         <div class="panel panel-default" :class="{ 'panel-success': has_results }">
-            <div class="panel-heading">Search</div>
+            <div class="panel-heading">{{ $t('search.title') }}</div>
             <div class="panel-body">
                 <form @submit.prevent class="form-inline" method="POST">
-                    <input type="text" class="form-control" style="width: 100%;" placeholder="Your query" id="input-search-form" v-model.trim="query" />
+                    <input type="text" class="form-control" style="width: 100%;" :placeholder="$t('search.placeholder')" id="input-search-form" v-model.trim="query" />
                     <span class="help-block">{{ searchIndicator }}</span>
                 </form>
             </div>
             <table class="table" v-if="sites.length > 0">
-                <caption>Sites</caption>
+                <caption>{{ $t('search.sites') }}</caption>
                 <tbody>
                 <tr v-for="site in sites">
                     <td>{{ site.name }}</td>
-                    <td><button class="btn btn-primary btn-xs" @click="showSite(site)">See</button></td>
+                    <td><button class="btn btn-primary btn-xs" @click="showSite(site)">{{ $t('app.button_see') }}</button></td>
                 </tr>
                 </tbody>
             </table>
             <table class="table" v-if="clients.length > 0">
-                <caption>Clients</caption>
+                <caption>{{ $t('search.clients') }}</caption>
                 <tbody>
                 <tr v-for="client in clients">
                     <td>{{ client.name }}</td>
-                    <td><button class="btn btn-primary btn-xs" @click="showClient(client)">See</button></td>
+                    <td><button class="btn btn-primary btn-xs" @click="showClient(client)">{{ $t('app.button_see') }}</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -48,8 +48,8 @@
 
 <script>
 
-    import clientMixins from '../mixins/clients'
-    import siteMixins from '../mixins/sites'
+    import clientMixins from '../mixins/clients';
+    import siteMixins from '../mixins/sites';
 
     export default {
 
@@ -73,35 +73,35 @@
         computed: {
             searchIndicator() {
                 if (this.searching) {
-                    return 'Searching...'
+                    return $t('search.indicator_searching');
                 } else if (this.dirtyQuery && this.query.length > 0) {
-                    return 'Typing...'
+                    return $t('search.indicator_typing');
                 }
 
-                return ''
+                return '';
             }
         },
 
         watch: {
             query() {
-                this.dirtyQuery = true
-                this.fetch()
+                this.dirtyQuery = true;
+                this.fetch();
             }
         },
 
         methods: {
             fetch: _.throttle(function() {
                 if (this.query.length >= 3) {
-                        this.searching = true
+                        this.searching = true;
                         this.$http.post('/api/search/all', {query: this.query})
                                 .then(response => {
-                                    this.sites = response.data.sites.length > 0 ? response.data.sites : []
-                                    this.clients = response.data.clients.length > 0 ? response.data.clients : []
-                                    this.has_results = this.sites.length > 0 || this.clients.length > 0 ? true : false
-                                    this.searching = false
-                                    this.dirtyQuery = false
+                                    this.sites = response.data.sites.length > 0 ? response.data.sites : [];
+                                    this.clients = response.data.clients.length > 0 ? response.data.clients : [];
+                                    this.has_results = this.sites.length > 0 || this.clients.length > 0 ? true : false;
+                                    this.searching = false;
+                                    this.dirtyQuery = false;
                                 })
-                                .catch(error => { alert(error)})
+                                .catch(error => { alert(error) });
                 }
             }, 250)
         }

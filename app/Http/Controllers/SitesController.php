@@ -12,6 +12,6 @@ class SitesController extends Controller
      */
     public function index()
     {
-        return view('views.sites.all')->with(['page_title' => 'All sites']);
+        return view('views.sites.all')->with(['page_title' => trans('app.pages.sites')]);
     }
 }

@@ -5,12 +5,12 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
                     <ul class="pager" style="margin: 0;">
-                        <li :class="{ disabled: is_first_page }"><a @click="prev">Previous</a></li>
-                        <li :class="{ disabled: is_last_page }"><a @click="next">Next</a></li>
+                        <li :class="{ disabled: is_first_page }"><a @click="prev">{{ $t('pagination.previous') }}</a></li>
+                        <li :class="{ disabled: is_last_page }"><a @click="next">{{ $t('pagination.next') }}</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-12 col-sm-6">
-                    <p class="text-center">Showing page {{ current_page }} / {{ last_page }}</p>
+                    <p class="text-center">{{ $t('pagination.showing') }} {{ current_page }} / {{ last_page }}</p>
                 </div>
             </div>
         </div>

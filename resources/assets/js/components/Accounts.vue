@@ -3,19 +3,19 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>All accounts</span>
-                    <a class="btn btn-sm btn-primary" @click="createAccount">Create New Account</a>
+                    <span>{{ $t('accounts.title_all') }}</span>
+                    <a class="btn btn-sm btn-primary" @click="createAccount">{{ $t('app.button_create') }}</a>
                 </div>
             </div>
             <div class="panel-body">
-                <p style="margin-bottom: 0" v-if="accounts.length === 0">You have not created any accounts.</p>
+                <p style="margin-bottom: 0" v-if="accounts.length === 0">{{ $t('accounts.empty') }}</p>
                 <table class="table table-borderless" style="margin-bottom: 0" v-if="accounts.length > 0">
                     <thead>
                     <tr>
-                        <th>Site</th>
-                        <th>Type</th>
-                        <th>Identifiant</th>
-                        <th>Password</th>
+                        <th>{{ $t('accounts.site') }}</th>
+                        <th>{{ $t('accounts.type') }}</th>
+                        <th>{{ $t('accounts.login') }}</th>
+                        <th>{{ $t('accounts.password') }}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -28,11 +28,11 @@
                         <td>
                             <div class="btn-group btn-group-xs">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Action <span class="caret"></span>
+                                    {{ $t('app.button_action') }} <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a @click="editAccount(account)">Edit</a></li>
-                                    <li><a @click="deleteAccount(account)">Delete</a></li>
+                                    <li><a @click="editAccount(account)">{{ $t('app.button_edit') }}</a></li>
+                                    <li><a @click="deleteAccount(account)">{{ $t('app.button_delete') }}</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -47,8 +47,8 @@
 
 <script>
 
-    import siteMixins from '../mixins/sites'
-    import accountMixins from '../mixins/accounts'
+    import siteMixins from '../mixins/sites';
+    import accountMixins from '../mixins/accounts';
 
     export default {
 
@@ -63,12 +63,12 @@
         mounted() {
             eventBus.$on('accountsRefresh', () => {
                 eventBus.$emit('paginatorRefresh');
-            })
+            });
         },
 
         methods: {
             update(data) {
-                this.accounts = data
+                this.accounts = data;
             }
         }
     }

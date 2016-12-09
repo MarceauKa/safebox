@@ -2,7 +2,7 @@
     <div>
         <!-- Buttons -->
         <div class="btn-group btn-group-xs" role="group">
-            <button type="button" class="btn btn-default" @click="copyToClipboard($event)">Copy</button>
+            <button type="button" class="btn btn-default" @click="copyToClipboard($event)">{{ $t('password.copy') }}</button>
             <!--<button type="button" class="btn btn-default">Show</button>-->
         </div>
     </div>
