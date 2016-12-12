@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Jobs\TakeSiteScreenshot;
 use App\Models\Site;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SitesController extends Controller
 {
@@ -25,7 +27,7 @@ class SitesController extends Controller
      */
     public function show($id)
     {
-        $site = Site::findOrFail($id);
+        $site = Site::with('client')->findOrFail($id);
 
         return $site;
     }
@@ -43,6 +45,18 @@ class SitesController extends Controller
         }
 
         return [];
+    }
+
+    /**
+     * @param   $id
+     * @return  JsonResponse
+     */
+    public function accounts($id)
+    {
+        $site = Site::with('accounts.accountable')->findOrFail($id);
+        $accounts = new LengthAwarePaginator($site->accounts, $site->accounts->count(), 25);
+
+        return $accounts;
     }
 
     /**
@@ -65,6 +79,8 @@ class SitesController extends Controller
             'url'       => $request->get('url'),
             'client_id' => $request->get('client_id')
         ])->save();
+
+        $this->dispatch(new TakeSiteScreenshot($site));
 
         return response('ok', 200);
     }
@@ -91,6 +107,8 @@ class SitesController extends Controller
             'url'       => $request->get('url'),
             'client_id' => $request->get('client_id')
         ])->save();
+
+        $this->dispatch(new TakeSiteScreenshot($site));
 
         return response('ok', 200);
     }

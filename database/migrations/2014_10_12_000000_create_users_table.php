@@ -22,6 +22,13 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('users')->insert([
+            'name'     => 'admin',
+            'email'    => 'admin@safebox.com',
+            'password' => bcrypt('password'),
+            'api_token' => str_random(60),
+        ]);
     }
 
     /**

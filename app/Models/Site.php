@@ -17,6 +17,12 @@ class Site extends Model
         'client',
         'url',
         'client_id',
+        'screenshot_url',
+    ];
+
+    /** @var array */
+    protected $appends = [
+        'screenshot_url'
     ];
 
     /** @var bool */
@@ -26,10 +32,10 @@ class Site extends Model
     protected $historyLimit = 20;
 
     /** @var array */
-    protected $keepRevisionOf = array(
+    protected $keepRevisionOf = [
         'name',
         'url'
-    );
+    ];
 
     /**
      * Get the indexable data array for the model.
@@ -38,9 +44,13 @@ class Site extends Model
      */
     public function toSearchableArray()
     {
-        return collect($this->toArray())->only(['id', 'name', 'url'])->toArray();
+        return collect($this->toArray())->only([
+            'id',
+            'name',
+            'url'
+        ])->toArray();
     }
-    
+
     /**
      * @return  \Illuminate\Database\Eloquent\Relations\MorphMany
      */
@@ -55,5 +65,23 @@ class Site extends Model
     public function client()
     {
         return $this->belongsTo(Client::class);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getScreenshotUrlAttribute()
+    {
+        return url($this->getScreenshotFileAttribute());
+    }
+
+    /**
+     * @return  string
+     */
+    protected function getScreenshotFileAttribute()
+    {
+        $id = $this->attributes['id'];
+
+        return 'screenshots/' . $this->attributes['id'] . '-' . sha1($id) . '.jpg';
     }
 }

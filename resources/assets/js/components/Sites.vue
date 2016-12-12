@@ -29,6 +29,7 @@
                                     {{ $t('app.button_action') }} <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <li><a @click="showSite(site)">{{ $t('app.button_see') }}</a></li>
                                     <li><a @click="editSite(site)">{{ $t('app.button_edit') }}</a></li>
                                     <li><a @click="deleteSite(site)">{{ $t('app.button_delete') }}</a></li>
                                 </ul>

@@ -1,14 +1,48 @@
+<style scoped>
+    #modal-show-site h3 {
+        margin-top: 0;
+    }
+    #modal-show-site .thumbnail img {
+        min-width: 100%;
+        min-height: 80px;
+    }
+    #modal-show-site .thumbnail {
+        padding: 0;
+    }
+    #modal-show-site .thumbnail p {
+        margin-bottom: 0;
+    }
+</style>
 <template>
     <div>
         <!-- Modal Show -->
         <div class="modal fade" id="modal-show-site" tabindex="-1" role="dialog" v-show="site">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">{{ $t('sites.singular') }} - {{ site.name }}</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4">
+                                <div class="thumbnail">
+                                    <img :src="site.screenshot_url" class="img-responsive" alt="Website preview">
+                                    <div class="caption">
+                                        <p class="text-center">
+                                            <a :href="site.url" class="btn btn-sm btn-info" target="_blank">{{ $t('app.button_visit') }}</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-8">
+                                <dl>
+                                    <dt>{{ $t('sites.url') }}</dt>
+                                    <dd><a :href="site.url" target="_blank">{{ site.url }}</a></dd>
+                                    <dt>{{ $t('clients.singular') }}</dt>
+                                    <dd><a @click="showClient(site.client)" data-dismiss="modal">{{ site.client.name }}</a></dd>
+                                </dl>
+                                <accounts :site-id="site.id" v-if="site.id"></accounts>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -108,13 +142,19 @@
 </template>
 
 <script>
+    import clientMixins from '../mixins/clients';
+
     export default {
+
+        mixins: [clientMixins],
 
         data() {
             return {
                 creating: false,
                 editing: false,
-                site: {},
+                site: {
+                    client: {}
+                },
                 clients: {},
                 history: [],
                 form: {
@@ -128,104 +168,118 @@
 
         mounted() {
             eventBus.$on('siteEntryShow', (site) => {
-                this.show(site)
-            })
+                this.show(site);
+            });
 
             eventBus.$on('siteEntryCreate', () => {
-                this.showCreate()
-            })
+                this.showCreate();
+            });
 
             eventBus.$on('siteEntryEdit', (site) => {
-                this.showEdit(site)
-            })
+                this.showEdit(site);
+            });
 
             eventBus.$on('siteEntryDelete', (site) => {
-                this.delete(site)
-            })
+                this.delete(site);
+            });
 
             eventBus.$on('siteHistoryShow', (site) => {
-                this.showHistory(site)
-            })
+                this.showHistory(site);
+            });
 
-            this.getClients()
+            this.getClients();
 
             $('#modal-form-site').on('shown.bs.modal', () => {
-                $('#input-site-name').focus()
-            })
+                $('#input-site-name').focus();
+            });
+
+            $('#modal-form-site').on('hidden.bs.modal', () => {
+                this.reset();
+            });
+
+            $('#modal-show-site').on('hidden.bs.modal', () => {
+                this.reset();
+            });
         },
 
         methods: {
 
+            reset() {
+                this.history = [];
+                this.site = {
+                    client: {}
+                };
+                this.editing = false;
+                this.creating = false;
+                this.form.id = null;
+                this.form.name = '';
+                this.form.url = '';
+                this.form.client_id = null;
+            },
+
             getClients() {
                 this.$http.get('/api/clients/list')
                         .then(response => {
-                            this.clients = response.data
-                        })
+                            this.clients = response.data;
+                        });
             },
 
             show(site) {
                 this.$http['get']('/api/sites/' + site.id)
                         .then(response => {
-                            this.site = response.data
-                            $('#modal-show-site').modal('show')
+                            this.site = response.data;
+                            $('#modal-show-site').modal('show');
                         })
                         .catch(response => {
-                            console.log(response)
-                        })
+                            console.log(response);
+                        });
             },
 
             showCreate() {
-                this.editing = false
-                this.creating = true
-                this.form.id = null
-                this.form.name = ''
-                this.form.url = ''
-                this.form.client_id = null
-
-                $('#modal-form-site').modal('show')
+                this.reset();
+                this.creating = true;
+                $('#modal-form-site').modal('show');
             },
 
             showHistory(site) {
                 this.$http['get']('/api/sites/history/' + site.id)
                         .then(response => {
-                    this.site = response.data.site
-                    this.history = response.data.history
+                    this.site = response.data.site;
+                    this.history = response.data.history;
 
-                    $('#modal-form-site').modal('hide')
-                    $('#modal-site-history').modal('show')
+                    $('#modal-form-site').modal('hide');
+                    $('#modal-site-history').modal('show');
                 })
                 .catch(response => {
-                    this.site = {}
-                    this.history = []
-                    console.log(response)
-                })
+                    this.reset();
+                    console.log(response);
+                });
             },
 
             save() {
                 if (this.editing) {
                     this.persist('put', '/api/sites/' + this.form.id, this.form, '#modal-form-site');
                 } else if (this.creating) {
-                    this.persist('post', '/api/sites', this.form, '#modal-form-site')
+                    this.persist('post', '/api/sites', this.form, '#modal-form-site');
                 }
             },
 
             clearShow() {
-                this.site = {}
-                $('#modal-show-site').modal('hide')
+                $('#modal-show-site').modal('hide');
             },
 
             showEdit(site) {
-                this.clearShow()
+                this.reset();
+                this.clearShow();
 
-                this.editing = true
-                this.creating = false
-                this.form.id = site.id
-                this.form.name = site.name
-                this.form.url = site.url
-                this.form.client_id = site.client_id
+                this.editing = true;
+                this.form.id = site.id;
+                this.form.name = site.name;
+                this.form.url = site.url;
+                this.form.client_id = site.client_id;
 
-                $('#modal-site-history').modal('hide')
-                $('#modal-form-site').modal('show')
+                $('#modal-site-history').modal('hide');
+                $('#modal-form-site').modal('show');
             },
 
             persist(method, uri, form, modal) {
@@ -233,28 +287,28 @@
 
                 this.$http[method](uri, form)
                     .then(response => {
-                        form.name = ''
-                        form.url = ''
-                        form.client_id = []
+                        form.name = '';
+                        form.url = '';
+                        form.client_id = [];
 
-                        this.editing = false
-                        this.creating = false
-                        eventBus.$emit('sitesRefresh')
-                        $(modal).modal('hide')
+                        this.editing = false;
+                        this.creating = false;
+                        eventBus.$emit('sitesRefresh');
+                        $(modal).modal('hide');
                     })
                     .catch(response => {
                         if (typeof response.data === 'object') {
-                            form.errors = _.flatten(_.toArray(response.data))
+                            form.errors = _.flatten(_.toArray(response.data));
                         } else {
-                            form.errors = ['Something went wrong. Please try again.']
+                            form.errors = ['Something went wrong. Please try again.'];
                         }
-                    })
+                    });
             },
 
             delete(site) {
                 this.$http.delete('/api/sites/' + site.id).then(response => {
-                    eventBus.$emit('sitesRefresh')
-                })
+                    eventBus.$emit('sitesRefresh');
+                });
             }
         }
     }

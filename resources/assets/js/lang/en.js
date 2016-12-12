@@ -4,6 +4,7 @@ module.exports = {
         validation_error: "Whoops, something went wrong!",
         option_choose: "Choose...",
         button_see: "See",
+        button_visit: "Visit",
         button_save: "Save",
         button_history: "History",
         button_action: "Action",
@@ -36,6 +37,7 @@ module.exports = {
     },
     clients: {
         singular: "Client",
+        plural: "Clients",
         title_all: "All clients",
         title_create: "Create client",
         title_edit: "Edit client",
@@ -46,6 +48,7 @@ module.exports = {
     },
     sites: {
         singular: "Site",
+        plural: "Sites",
         title_all: "All sites",
         title_create: "Create a site",
         title_edit: "Edit site",
@@ -55,6 +58,8 @@ module.exports = {
         client: "Client"
     },
     accounts: {
+        singular: "Account",
+        plural: "Accounts",
         title_all: "All accounts",
         title_create: "Create account",
         title_edit: "Edit account",

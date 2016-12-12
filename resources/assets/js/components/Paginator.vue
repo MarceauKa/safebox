@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-show="records.length > 0">
+        <div v-show="records.length > 0 && last_page > 1">
             <hr />
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
@@ -24,7 +24,7 @@
         props: {
             source: {
                 type: String,
-                default: ''
+                required: true
             }
         },
 
@@ -44,8 +44,8 @@
 
         mounted() {
             eventBus.$on('paginatorRefresh', () => {
-                this.fetch()
-            })
+                this.fetch();
+            });
 
             this.fetch();
         },
@@ -57,41 +57,41 @@
             },
 
             isLastPage() {
-                this.is_last_page = this.current_page == this.last_page
-                return this.is_last_page
+                this.is_last_page = this.current_page == this.last_page;
+                return this.is_last_page;
             },
 
             next() {
               if (this.next_page_url) {
-                  this.fetch(this.next_page_url)
+                  this.fetch(this.next_page_url);
               }
             },
 
             prev() {
                 if (this.prev_page_url) {
-                    this.fetch(this.prev_page_url)
+                    this.fetch(this.prev_page_url);
                 }
             },
 
             fetch(url = null) {
-                let query = url === null ? this.source : url
+                let query = url === null ? this.source : url;
 
                 this.$http
                         .get(query)
                         .then(response => {
-                    this.prev_page_url = response.data.prev_page_url
-                    this.next_page_url = response.data.next_page_url
-                    this.current_page = response.data.current_page
-                    this.last_page = response.data.last_page
-                    this.total = response.data.total
-                    this.to = response.data.to
+                    this.prev_page_url = response.data.prev_page_url;
+                    this.next_page_url = response.data.next_page_url;
+                    this.current_page = response.data.current_page;
+                    this.last_page = response.data.last_page;
+                    this.total = response.data.total;
+                    this.to = response.data.to;
 
-                    this.isLastPage()
-                    this.isFirstPage()
+                    this.isLastPage();
+                    this.isFirstPage();
 
-                    this.records = response.data.data
-                    this.$emit('fetch', this.records)
-                })
+                    this.records = response.data.data;
+                    this.$emit('fetch', this.records);
+                });
             }
         }
     }

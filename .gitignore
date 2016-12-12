@@ -2,6 +2,7 @@
 /public/storage
 /public/js/
 /public/css/
+/public/screenshots/*.jpg
 /vendor
 /.idea
 Homestead.json

@@ -28,6 +28,7 @@ Route::group([
     $router->resource('clients', 'Api\ClientsController');
 
     $router->get('sites/list', 'Api\SitesController@lists');
+    $router->get('sites/accounts/{id}', 'Api\SitesController@accounts');
     $router->get('sites/history/{id}', 'Api\SitesController@history');
     $router->resource('sites', 'Api\SitesController');
 

@@ -39,7 +39,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <paginator source="/api/accounts" v-on:fetch="update"></paginator>
+                <paginator :source="url" v-on:fetch="update"></paginator>
             </div>
         </div>
     </div>
@@ -54,6 +54,13 @@
 
         mixins: [siteMixins, accountMixins],
 
+        props: {
+            siteId: {
+                type: Number,
+                default: 0
+            }
+        },
+
         data() {
             return {
                 accounts: []
@@ -64,6 +71,12 @@
             eventBus.$on('accountsRefresh', () => {
                 eventBus.$emit('paginatorRefresh');
             });
+        },
+
+        computed: {
+            url: function() {
+                return this.siteId ? '/api/sites/accounts/' + this.siteId : '/api/accounts';
+            }
         },
 
         methods: {
