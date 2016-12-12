@@ -1,6 +1,6 @@
 # Safebox
 
-**Safebox** est une application à **auto-héberger** destinée aux **freelances** ou aux **agences** permettant de gérer ses sites, ses comptes utilisateurs, 
+**Safebox** est une web application à **auto-héberger** destinée aux **freelances** ou aux **agences** permettant de gérer ses sites, ses comptes utilisateurs, 
 ses notes, ses snippets, ses domaines.
 
 L'application est développée sous **Laravel 5.3** et **Vue.js 2**. Les données stockées sont chiffrées en base de données et sont déchiffrées à la volée.
@@ -12,6 +12,7 @@ L'application est développée sous **Laravel 5.3** et **Vue.js 2**. Les donnée
 - Node.js
 - Gulp
 - NPM
+- Un environnement Unix
 
 ### 1. Installation se fait sous composer
 
@@ -25,7 +26,13 @@ La configuration se fait dans le fichier `.env`.
 Une fois la base de données configurée, lancez les migrations.
 
 ```bash
-artisan migrate --seed
+artisan migrate
+```
+
+Si vous souhaitez insérer les données de démo, faites :
+
+```bash
+artisan db:seed
 ```
 
 ### 3. Installation des assets
@@ -34,17 +41,24 @@ npm install
 gulp
 ```
 
-4. Lancement du serveur local:
-```
-artisan serve
-```
-
 ## Documentation
 
 ### Utilisateur par défaut
 
-Email: admin@safebox.com
-Mot de passe: password
+Email: `admin@safebox.com`
+Mot de passe: `password`
+
+### Prendre une capture des sites
+
+Dès que vous ajoutez un site, une capture d'écran est faite.  
+
+Pour cela, vous devez :  
+- Avoir librairie node.js "PhantomJS" (installée par défaut lors du `npm install`).
+- Le worker de Laravel fonctionnel:
+    1. `artisan queue:work` ou `artisan queue:listen`.
+    2. Une tâche CRON configurée toutes les minutes sur `artisan schedule:run`.
+    
+Si vous ne souhaitez pas activer les screenshots, vous pouvez spécifier `QUEUE_DRIVER=null` dans votre fichier `.env`.
 
 ## Contribuer
 
