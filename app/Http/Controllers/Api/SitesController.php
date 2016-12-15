@@ -11,6 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class SitesController extends Controller
 {
+    /** @var string Regex to validate GA id */
+    const GAID_REGEX = '/^[A-Z]{2}-[0-9]{4,}-[0-9]{1,}$/';
+
     /**
      * Display a listing of the resource.
      *
@@ -68,16 +71,20 @@ class SitesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'      => 'required|max:255',
-            'url'       => 'required|url',
-            'client_id' => 'required|exists:clients,id'
+            'name'             => 'required|max:255',
+            'url'              => 'required|url',
+            'repo_url'         => 'url',
+            'google_analytics' => 'regex:' . self::GAID_REGEX,
+            'client_id'        => 'required|exists:clients,id'
         ]);
 
         $site = new Site();
         $site->forceFill([
-            'name'      => $request->get('name'),
-            'url'       => $request->get('url'),
-            'client_id' => $request->get('client_id')
+            'name'             => $request->get('name'),
+            'url'              => $request->get('url'),
+            'repo_url'         => $request->get('repo_url'),
+            'google_analytics' => $request->get('google_analytics'),
+            'client_id'        => $request->get('client_id')
         ])->save();
 
         $this->dispatch(new TakeSiteScreenshot($site));
@@ -97,15 +104,19 @@ class SitesController extends Controller
         $site = Site::findOrFail($id);
 
         $this->validate($request, [
-            'name'      => 'required|max:255',
-            'url'       => 'required|url',
-            'client_id' => 'required|exists:clients,id'
+            'name'             => 'required|max:255',
+            'url'              => 'required|url',
+            'repo_url'         => 'url',
+            'google_analytics' => 'regex:' . self::GAID_REGEX,
+            'client_id'        => 'required|exists:clients,id'
         ]);
 
         $site->forceFill([
-            'name'      => $request->get('name'),
-            'url'       => $request->get('url'),
-            'client_id' => $request->get('client_id')
+            'name'             => $request->get('name'),
+            'url'              => $request->get('url'),
+            'repo_url'         => $request->get('repo_url'),
+            'google_analytics' => $request->get('google_analytics'),
+            'client_id'        => $request->get('client_id')
         ])->save();
 
         $this->dispatch(new TakeSiteScreenshot($site));
@@ -145,8 +156,9 @@ class SitesController extends Controller
                 return substr($item->created_at, 0, 10);
             })->map(function ($item, $key)
             {
-                return collect(['date'    => $key,
-                                'entries' => $item
+                return collect([
+                    'date'    => $key,
+                    'entries' => $item
                 ]);
             })->values();
         }

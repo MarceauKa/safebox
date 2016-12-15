@@ -55,7 +55,9 @@ module.exports = {
         empty: "Vous n'avez créé aucun site.",
         name: "Nom",
         url: "URL",
-        client: "Client"
+        client: "Client",
+        repo_url: "URL dépôt git",
+        google_analytics: "Google Analytics"
     },
     accounts: {
         singular: "Account",

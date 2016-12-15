@@ -18,6 +18,8 @@ class Site extends Model
         'url',
         'client_id',
         'screenshot_url',
+        'repo_url',
+        'google_analytics'
     ];
 
     /** @var array */
@@ -34,7 +36,9 @@ class Site extends Model
     /** @var array */
     protected $keepRevisionOf = [
         'name',
-        'url'
+        'url',
+        'repo_url',
+        'google_analytics'
     ];
 
     /**

@@ -17,6 +17,8 @@ class CreateSitesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('url');
+            $table->string('repo_url')->nullable();
+            $table->string('google_analytics')->nullable();
             $table->integer('client_id')->unsigned()->index();
             $table->timestamps();
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
