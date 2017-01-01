@@ -16,7 +16,7 @@
 <template>
     <div>
         <!-- Modal Show -->
-        <div class="modal fade" id="modal-show-site" tabindex="-1" role="dialog" v-show="site">
+        <div class="modal fade" id="modal-show-site" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -39,7 +39,7 @@
                                     <dt>{{ $t('sites.url') }}</dt>
                                     <dd><a :href="site.url" target="_blank">{{ site.url }}</a></dd>
                                     <dt>{{ $t('clients.singular') }}</dt>
-                                    <dd><a @click="showClient(site.client)" data-dismiss="modal">{{ site.client.name }}</a></dd>
+                                    <dd><a @click="showClient(site.client)" data-dismiss="modal" v-if="site.client">{{ site.client.name }}</a></dd>
                                 </dl>
                                 <accounts :site-id="site.id" v-if="site.id"></accounts>
                             </div>
@@ -47,13 +47,13 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
-                        <button type="button" class="btn btn-primary" @click="showEdit(site)">{{ $t('app.button_edit') }}</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="showEdit(site)">{{ $t('app.button_edit') }}</button>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Modal create / edit -->
-        <div class="modal fade" id="modal-form-site" tabindex="-1" role="dialog" v-show="site">
+        <div class="modal fade" id="modal-form-site" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -93,7 +93,7 @@
                         </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
-                            <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" @click="showHistory(form)" v-if="editing">{{ $t('app.button_history') }}</button>
                             <button type="button" class="btn btn-primary" @click="save">{{ $t('app.button_save') }}</button>
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
-                        <button type="button" class="btn btn-primary" @click="showEdit(site)">{{ $t('app.button_edit') }}</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="showEdit(site)">{{ $t('app.button_edit') }}</button>
                     </div>
                 </div>
             </div>
@@ -192,30 +192,9 @@
             $('#modal-form-site').on('shown.bs.modal', () => {
                 $('#input-site-name').focus();
             });
-
-            $('#modal-form-site').on('hidden.bs.modal', () => {
-                this.reset();
-            });
-
-            $('#modal-show-site').on('hidden.bs.modal', () => {
-                this.reset();
-            });
         },
 
         methods: {
-
-            reset() {
-                this.history = [];
-                this.site = {
-                    client: {}
-                };
-                this.editing = false;
-                this.creating = false;
-                this.form.id = null;
-                this.form.name = '';
-                this.form.url = '';
-                this.form.client_id = null;
-            },
 
             getClients() {
                 this.$http.get('/api/clients/list')
@@ -236,24 +215,29 @@
             },
 
             showCreate() {
-                this.reset();
                 this.creating = true;
+                this.editing  = false;
+
+                this.form = {
+                    errors: [],
+                    name: '',
+                    url: '',
+                    client_id: ''
+                };
+
                 $('#modal-form-site').modal('show');
             },
 
             showHistory(site) {
                 this.$http['get']('/api/sites/history/' + site.id)
                         .then(response => {
-                    this.site = response.data.site;
-                    this.history = response.data.history;
-
-                    $('#modal-form-site').modal('hide');
-                    $('#modal-site-history').modal('show');
-                })
-                .catch(response => {
-                    this.reset();
-                    console.log(response);
-                });
+                            this.site = response.data.site;
+                            this.history = response.data.history;
+                            $('#modal-site-history').modal('show');
+                        })
+                        .catch(response => {
+                            console.log(response);
+                        });
             },
 
             save() {
@@ -264,21 +248,16 @@
                 }
             },
 
-            clearShow() {
-                $('#modal-show-site').modal('hide');
-            },
-
             showEdit(site) {
-                this.reset();
-                this.clearShow();
-
                 this.editing = true;
+                this.creating = false;
+
+                this.site = site;
                 this.form.id = site.id;
                 this.form.name = site.name;
                 this.form.url = site.url;
                 this.form.client_id = site.client_id;
 
-                $('#modal-site-history').modal('hide');
                 $('#modal-form-site').modal('show');
             },
 
@@ -287,10 +266,6 @@
 
                 this.$http[method](uri, form)
                     .then(response => {
-                        form.name = '';
-                        form.url = '';
-                        form.client_id = [];
-
                         this.editing = false;
                         this.creating = false;
                         eventBus.$emit('sitesRefresh');
