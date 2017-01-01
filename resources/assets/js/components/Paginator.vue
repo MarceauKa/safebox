@@ -93,6 +93,12 @@
                     this.$emit('fetch', this.records);
                 });
             }
+        },
+
+        watch: {
+            source: function(value) {
+                this.fetch(value);
+            }
         }
     }
 </script>

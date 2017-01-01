@@ -252,7 +252,6 @@
                 this.editing = true;
                 this.creating = false;
 
-                this.site = site;
                 this.form.id = site.id;
                 this.form.name = site.name;
                 this.form.url = site.url;
