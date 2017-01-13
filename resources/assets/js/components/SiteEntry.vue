@@ -26,7 +26,7 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-4">
                                 <div class="thumbnail">
-                                    <img :src="site.screenshot_url" class="img-responsive" alt="Website preview">
+                                    <img :src="site.screenshot_url" class="img-responsive" id="site-website-preview" alt="Website preview" @error="removeImage">
                                     <div class="caption">
                                         <p class="text-center">
                                             <a :href="site.url" class="btn btn-sm btn-info" target="_blank">{{ $t('app.button_visit') }}</a>
@@ -208,6 +208,7 @@
                         .then(response => {
                             this.site = response.data;
                             $('#modal-show-site').modal('show');
+
                         })
                         .catch(response => {
                             console.log(response);
@@ -263,7 +264,11 @@
             persist(method, uri, form, modal) {
                 form.errors = [];
 
-                this.$http[method](uri, form)
+                let options = {
+                    emulateHTTP: true
+                };
+
+                this.$http[method](uri, form, options)
                     .then(response => {
                         this.editing = false;
                         this.creating = false;
@@ -283,6 +288,10 @@
                 this.$http.delete('/api/sites/' + site.id).then(response => {
                     eventBus.$emit('sitesRefresh');
                 });
+            },
+
+            removeImage() {
+                $('img#site-website-preview').attr('src', '').hide();
             }
         }
     }

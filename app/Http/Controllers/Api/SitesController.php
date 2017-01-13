@@ -102,6 +102,7 @@ class SitesController extends Controller
     public function update(Request $request, $id)
     {
         $site = Site::findOrFail($id);
+        $old_url = $site->url;
 
         $this->validate($request, [
             'name'             => 'required|max:255',
@@ -119,7 +120,11 @@ class SitesController extends Controller
             'client_id'        => $request->get('client_id')
         ])->save();
 
-        $this->dispatch(new TakeSiteScreenshot($site));
+        // Take the picture only if site URL changed.
+        if ($old_url != $site->url)
+        {
+            $this->dispatch(new TakeSiteScreenshot($site));
+        }
 
         return response('ok', 200);
     }
