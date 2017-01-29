@@ -58,9 +58,9 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
-                        <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}</button>
-                        <button type="button" class="btn btn-primary" @click="save">{{ $t('app.button_save') }}</button>
+                        <button type="button" class="btn btn-default btn-close" data-dismiss="modal">{{ $t('app.button_close') }}</button>
+                        <button type="button" class="btn btn-default btn-history" @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}</button>
+                        <button type="button" class="btn btn-primary btn-save" @click="save">{{ $t('app.button_save') }}</button>
                     </div>
                 </div>
             </div>
