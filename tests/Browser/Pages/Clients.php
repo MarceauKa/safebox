@@ -38,7 +38,8 @@ class Clients extends BasePage
             '@panel' => 'div.panel',
             '@table' => 'div.panel-body table.table',
             '@linkCreateClient' => 'Create',
-            '@modalCreation' => 'div#modal-form-client',
+            '@modalForm' => 'div#modal-form-client',
+            '@modalHistory' => 'div#modal-client-history',
             '@createInputName' => 'div#modal-form-client input#input-client-name',
             '@createInputEmail' => 'div#modal-form-client input[name="email"]',
             '@createButtonSave' => 'div#modal-form-client button.btn-save'
