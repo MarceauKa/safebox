@@ -93,6 +93,7 @@ return [
             'max_expansions' => 50,
             'distance' => 2
         ],
+        'asYouType' => true,
     ],
 
 ];

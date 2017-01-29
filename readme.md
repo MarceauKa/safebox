@@ -1,69 +1,74 @@
 # Safebox
 
-**Safebox** est une web application à **auto-héberger** destinée aux **freelances** ou aux **agences** permettant de gérer ses sites, ses comptes utilisateurs, 
-ses notes, ses snippets, ses domaines.
-
-L'application est développée sous **Laravel 5.3** et **Vue.js 2**. Les données stockées sont chiffrées en base de données et sont déchiffrées à la volée.
+**Safebox** is a self-hosted web application for **developers** and **web agencies** to manage **clients**, **websites**, **accounts**, **procedures**, **snippets** and more.
+It's built with **Laravel 5.4** and **Vue.js 2**. All sensitive data are **encrypted** in the database.
 
 ## Installation
 
-**Safebox** nécéssite:
-- PHP >= 5.6
+**Safebox** requires:
+- PHP >= 7
 - Node.js
-- Gulp
 - NPM
-- Un environnement Unix
+- Linux (or OSX)
 
-### 1. Installation se fait sous composer
+### 1. Composer
 
 ```bash
 composer create-project 404labfr/safebox
 ```
 
-### 2. Configuration et migration
+### 2. Configuration and database
 
-La configuration se fait dans le fichier `.env`.  
-Une fois la base de données configurée, lancez les migrations.
+Please update the `.env` file to your needs.  
+Once your database is configured:
 
 ```bash
 artisan migrate
 ```
 
-Si vous souhaitez insérer les données de démo, faites :
+If you want fake data:
 
 ```bash
 artisan db:seed
 ```
 
-### 3. Installation des assets
+### 3. Assets
 ```bash
 npm install
-gulp
+npm run dev # or npm run production
 ```
 
 ## Documentation
 
-### Utilisateur par défaut
+### Default user
 
 Email: `admin@safebox.com`
-Mot de passe: `password`
+Password: `password`
 
-### Prendre une capture des sites
+### Website screenshots
 
-Dès que vous ajoutez un site, une capture d'écran est faite.  
+When adding a website a screenshot is taken. 
 
-Pour cela, vous devez :  
-- Avoir librairie node.js "PhantomJS" (installée par défaut lors du `npm install`).
-- Le worker de Laravel fonctionnel:
-    1. `artisan queue:work` ou `artisan queue:listen`.
-    2. Une tâche CRON configurée toutes les minutes sur `artisan schedule:run`.
+You'll need :  
+- **PhantomJS** (installed when `npm install`).
+- A Laravel worker:
+    1. `artisan queue:work` or `artisan queue:listen`.
+    2. A CRON task to `artisan schedule:run` (see the Laravel documentation).
     
-Si vous ne souhaitez pas activer les screenshots, vous pouvez spécifier `QUEUE_DRIVER=null` dans votre fichier `.env`.
+If you don't want screenshots you can specify the queue driver to `QUEUE_DRIVER=null` in your `.env` file.
 
-## Contribuer
+## Contribute
 
-**Safebox** est open-source. N'hésitez pas à proposer vos améliorations et vos idées en utilisant l'onglet "Issues".
+All contribution is welcome, please Pull Request or open your issues.
+
+## Tests
+
+**Safebox** uses End-to-End tests with **Laravel Dusk**.
+ 
+```bash
+artisan dusk
+```
 
 ## License
 
-Safebox est proposée en [licence open-source MIT](http://opensource.org/licenses/MIT).
+[MIT](http://opensource.org/licenses/MIT).

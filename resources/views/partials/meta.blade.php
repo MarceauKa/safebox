@@ -6,5 +6,5 @@
     @if(!Auth::guest())<meta name="api-token" content="{{ Auth::user()->api_token }}">@endif
     <meta name="app-locale" content="{{ config('app.locale', 'en') }}">
     <title>{{ $page_title or 'Dashboard' }} - {{ config('app.name', 'Safebox') }}</title>
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
 </head>

@@ -1,5 +1,7 @@
 /node_modules
+/public/mix-manifest.json
 /public/storage
+/public/fonts/
 /public/js/
 /public/css/
 /public/screenshots/*.jpg

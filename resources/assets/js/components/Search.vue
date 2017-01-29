@@ -73,9 +73,9 @@
         computed: {
             searchIndicator() {
                 if (this.searching) {
-                    return $t('search.indicator_searching');
+                    return this.$t('search.indicator_searching');
                 } else if (this.dirtyQuery && this.query.length > 0) {
-                    return $t('search.indicator_typing');
+                    return this.$t('search.indicator_typing');
                 }
 
                 return '';
