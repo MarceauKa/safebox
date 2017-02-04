@@ -13,7 +13,7 @@ class ClientsTest extends DuskTestCase
     use DatabaseMigrations;
 
     /**
-     *
+     * @test
      * @group clients
      */
     public function it_can_access_clients_page()
@@ -27,7 +27,7 @@ class ClientsTest extends DuskTestCase
     }
 
     /**
-     *
+     * @test
      * @group clients
      */
     public function it_can_create_a_client()
@@ -47,7 +47,7 @@ class ClientsTest extends DuskTestCase
     }
 
     /**
-     * 
+     * @test
      * @group clients
      */
     public function it_can_edit_a_client()
@@ -111,6 +111,27 @@ class ClientsTest extends DuskTestCase
                 ->waitFor('@modalHistory')
                 ->assertSeeIn('@modalHistory', 'Edited')
                 ->assertSeeIn('@modalHistory', $original_name);
+        });
+    }
+
+    /**
+     * @test
+     * @group clients
+     */
+    public function it_can_navigate_in_pagination()
+    {
+        factory(Client::class, 50)->create();
+        $client  = Client::whereId(26)->first();
+
+        $this->browse(function (Browser $browser) use($client) {
+            $browser->loginAs(1)
+                ->visit(new Clients())
+                ->waitFor('@table')
+                ->assertSee('Next')
+                ->assertDontSee($client->name)
+                ->clickLink('Next')
+                ->pause(1000)
+                ->assertSee($client->name);
         });
     }
 }
