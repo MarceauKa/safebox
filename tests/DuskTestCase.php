@@ -22,6 +22,22 @@ abstract class DuskTestCase extends BaseTestCase
     }
 
     /**
+     * Define hooks to migrate the database before and after each test.
+     *
+     * @return void
+     */
+    public function runDatabaseMigrations()
+    {
+        $this->artisan('migrate:refresh');
+
+        $this->app[Kernel::class]->setArtisan(null);
+
+        $this->beforeApplicationDestroyed(function () {
+            $this->artisan('migrate:reset');
+        });
+    }
+
+    /**
      * Create the RemoteWebDriver instance.
      *
      * @return \Facebook\WebDriver\Remote\RemoteWebDriver

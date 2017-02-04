@@ -3,17 +3,17 @@
 namespace Tests\Browser;
 
 use App\Models\Client;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\Clients;
 use Tests\DuskTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ClientsTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
     /**
-     * @test
+     *
      * @group clients
      */
     public function it_can_access_clients_page()
@@ -27,7 +27,7 @@ class ClientsTest extends DuskTestCase
     }
 
     /**
-     * @test
+     *
      * @group clients
      */
     public function it_can_create_a_client()
@@ -47,7 +47,7 @@ class ClientsTest extends DuskTestCase
     }
 
     /**
-     * @test
+     * 
      * @group clients
      */
     public function it_can_edit_a_client()
@@ -73,7 +73,7 @@ class ClientsTest extends DuskTestCase
      * @test
      * @group clients
      */
-    public function it_can_show_a_client_history()
+    public function it_can_show_a_client_without_history()
     {
         $client = factory(Client::class, 1)->create()->first();
 
@@ -83,14 +83,34 @@ class ClientsTest extends DuskTestCase
                 ->waitFor('@table')
                 ->clickLink('Edit')
                 ->waitFor('@modalForm')
-                ->type('@createInputName', 'New client name')
-                ->press('@createButtonSave')
-                ->waitUntilMissing('@modalForm')
+                ->press('History')
+                ->waitFor('@modalHistory')
+                ->assertSeeIn('@modalHistory', $client->name)
+                ->assertSeeIn('@modalHistory', "There's no history.");
+        });
+    }
+
+    /**
+     * @test
+     * @group clients
+     */
+    public function it_can_show_a_client_with_history()
+    {
+        $client = factory(Client::class, 1)->create()->first();
+        $original_name = $client->name;
+        $client->name = 'Edited';
+        $client->save();
+
+        $this->browse(function (Browser $browser) use($client, $original_name) {
+            $browser->loginAs(1)
+                ->visit(new Clients())
+                ->waitFor('@table')
                 ->clickLink('Edit')
                 ->waitFor('@modalForm')
-                ->clickLink('History')
+                ->press('History')
                 ->waitFor('@modalHistory')
-                ->assertSeeIn('@modalHistory', $client->name);
+                ->assertSeeIn('@modalHistory', 'Edited')
+                ->assertSeeIn('@modalHistory', $original_name);
         });
     }
 }
