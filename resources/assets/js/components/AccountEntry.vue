@@ -121,6 +121,14 @@
 <script>
     export default {
 
+        props: {
+            siteId: {
+                type: Number,
+                required: false,
+                default: 0
+            }
+        },
+
         data() {
             return {
                 creating: false,
