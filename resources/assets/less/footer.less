@@ -10,5 +10,32 @@
     padding: 30px 10px;
     margin: 0;
   }
+  
+  .col-left {
+    p {
+      text-align: left;
+    }
+  }
+  
+  .col-right {
+    p {
+      text-align: right;
+    }
+  }
+
+  @media screen and (max-width: @grid-float-breakpoint-max) {
+
+    & {
+      padding: 20px 10px;
+    }
+
+    .col-left,
+    .col-right {
+      p {
+        text-align: center;
+        padding: 0 0 10px 0;
+      }
+    }
+  }
 
 }
