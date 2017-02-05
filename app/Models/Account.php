@@ -19,7 +19,8 @@ class Account extends Model
     protected $keepRevisionOf = array(
         'type',
         'credential_login',
-        'credential_password'
+        'credential_password',
+        'credential_comment'
     );
 
     /** @var array */
@@ -38,6 +39,7 @@ class Account extends Model
         'type_name',
         'credential_login',
         'credential_password',
+        'credential_comment',
         'accountable'
     ];
 
@@ -77,6 +79,14 @@ class Account extends Model
     }
 
     /**
+     * @return  string
+     */
+    public function getCredentialCommentAttribute()
+    {
+        return decrypt($this->attributes['credential_comment']);
+    }
+
+    /**
      * @return  void
      */
     public function setCredentialLoginAttribute($value)
@@ -90,5 +100,13 @@ class Account extends Model
     public function setCredentialPasswordAttribute($value)
     {
         $this->attributes['credential_password'] = encrypt($value);
+    }
+
+    /**
+     * @return  void
+     */
+    public function setCredentialCommentAttribute($value)
+    {
+        $this->attributes['credential_comment'] = encrypt($value);
     }
 }

@@ -1,9 +1,8 @@
 <template>
     <div>
         <!-- Buttons -->
-        <div class="btn-group btn-group-xs" role="group">
+        <div class="btn-group btn-group-sm" role="group">
             <button type="button" class="btn btn-default" @click="copyToClipboard($event)">{{ $t('password.copy') }}</button>
-            <!--<button type="button" class="btn btn-default">Show</button>-->
         </div>
     </div>
 </template>

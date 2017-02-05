@@ -21,7 +21,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="account in accounts">
-                        <td style="vertical-align: middle;">{{ account.accountable.name }}</td>
+                        <td style="vertical-align: middle;">{{ account.accountable ? account.accountable.name : '-' }}</td>
                         <td style="vertical-align: middle;"><span class="label label-default">{{ account.type_name }}</span></td>
                         <td style="vertical-align: middle;">{{ account.credential_login }}</td>
                         <td style="vertical-align: middle;"><password :password="account.credential_password"></password></td>

@@ -69,6 +69,7 @@ module.exports = {
         site: "Site",
         type: "Type",
         login: "Identifiant",
-        password: "Mot de passe"
+        password: "Mot de passe",
+        comment: "Commentaire"
     }
 };

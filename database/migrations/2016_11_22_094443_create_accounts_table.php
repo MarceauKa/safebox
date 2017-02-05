@@ -18,8 +18,9 @@ class CreateAccountsTable extends Migration
             $table->string('type');
             $table->text('credential_login');
             $table->text('credential_password');
-            $table->string('accountable_type');
-            $table->integer('accountable_id');
+            $table->text('credential_comment')->nullable();
+            $table->string('accountable_type')->nullable();
+            $table->integer('accountable_id')->nullable();
             $table->timestamps();
             $table->index(['accountable_type', 'accountable_id']);
         });

@@ -29,43 +29,39 @@
 
                     <div class="modal-body">
                         <div class="alert alert-danger" v-if="form.errors.length > 0">
-                            <p>{{ $t('app.validation_errors') }}<br>
+                            <p>{{ $t('app.validation_error') }}<br>
                             <ul>
                                 <li v-for="error in form.errors">{{ error }}</li>
                             </ul>
                         </div>
-                        <form class="form-horizontal" role="form" autocomplete="off">
+                        <form role="form" autocomplete="off">
                             <div class="form-group">
-                                <label class="col-md-3 control-label">{{ $t('accounts.site') }}</label>
-                                <div class="col-md-7">
-                                    <select name="site_id" v-model="form.site_id" class="form-control">
-                                        <option value="">{{ $t('app.option_choose') }}</option>
-                                        <option v-for="(site, index) in sites" :value="index" v-text="site"></option>
-                                    </select>
-                                </div>
+                                <label>{{ $t('accounts.site') }}</label>
+                                <select name="site_id" v-model="form.site_id" class="form-control">
+                                    <option value="">{{ $t('app.option_choose') }}</option>
+                                    <option v-for="(site, index) in sites" :value="index" v-text="site"></option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">{{ $t('accounts.type') }}</label>
-                                <div class="col-md-7">
-                                    <select name="type" v-model="form.type" class="form-control">
-                                        <option value="">{{ $t('app.option_choose') }}</option>
-                                        <option v-for="(type, key, index) in types" :value="key">{{ type }}</option>
-                                    </select>
-                                </div>
+                                <label>{{ $t('accounts.type') }}</label>
+                                <select name="type" v-model="form.type" class="form-control">
+                                    <option value="">{{ $t('app.option_choose') }}</option>
+                                    <option v-for="(type, key, index) in types" :value="key">{{ type }}</option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">{{ $t('accounts.login') }}</label>
-                                <div class="col-md-7">
-                                    <input type="text" class="form-control" id="input-account-login" name="credential_login"
-                                           v-model="form.credential_login" autocomplete="off">
-                                </div>
+                                <label>{{ $t('accounts.login') }}</label>
+                                <input type="text" class="form-control" id="input-account-login" name="credential_login"
+                                       v-model="form.credential_login" autocomplete="off">
                             </div>
                             <div class="form-group">
-                                <label class="col-md-3 control-label">{{ $t('accounts.password') }}</label>
-                                <div class="col-md-7">
-                                    <input type="password" class="form-control" id="input-account-password" name="credential_password"
-                                           v-model="form.credential_password" autocomplete="off">
-                                </div>
+                                <label>{{ $t('accounts.password') }}</label>
+                                <input type="password" class="form-control" id="input-account-password" name="credential_password"
+                                       v-model="form.credential_password" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label>{{ $t('accounts.comment') }}</label>
+                                <textarea class="form-control" name="credential_comment" v-model="form.credential_comment"></textarea>
                             </div>
                         </form>
                     </div>
@@ -135,7 +131,8 @@
                     type: '',
                     site_id: '',
                     credential_login: '',
-                    credential_password: ''
+                    credential_password: '',
+                    credential_comment: ''
                 }
             };
         },
@@ -204,6 +201,7 @@
                 this.form.type = '';
                 this.form.credential_login =  '';
                 this.form.credential_password =  '';
+                this.form.credential_comment =  '';
 
                 if (this.site_id) {
                     this.form.site_id = this.site_id;
@@ -231,6 +229,22 @@
                 })
             },
 
+            showEdit(account) {
+                this.clearShow();
+
+                this.editing = true;
+                this.creating = false;
+                this.form.id = account.id;
+                this.form.type = account.type;
+                this.form.site_id = !account.accountable ? '' : account.accountable.id;
+                this.form.credential_login = account.credential_login;
+                this.form.credential_password = account.credential_password;
+                this.form.credential_comment = account.credential_comment;
+
+                $('#modal-account-history').modal('hide');
+                $('#modal-form-account').modal('show');
+            },
+
             save() {
                 if (this.editing) {
                     this.persist('put', '/api/accounts/' + this.form.id, this.form, '#modal-form-account');
@@ -244,21 +258,6 @@
                 $('#modal-show-account').modal('hide');
             },
 
-            showEdit(account) {
-                this.clearShow();
-
-                this.editing = true;
-                this.creating = false;
-                this.form.id = account.id;
-                this.form.type = account.type;
-                this.form.site_id = account.accountable.id;
-                this.form.credential_login = account.credential_login;
-                this.form.credential_password = account.credential_password;
-
-                $('#modal-account-history').modal('hide');
-                $('#modal-form-account').modal('show');
-            },
-
             persist(method, uri, form, modal) {
                 form.errors = [];
 
@@ -268,6 +267,7 @@
                         form.site_id = '';
                         form.credential_login = '';
                         form.credential_password = '';
+                        form.credential_comment = '';
 
                         this.editing = false;
                         this.creating = false;

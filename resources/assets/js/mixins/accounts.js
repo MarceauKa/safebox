@@ -9,7 +9,7 @@ module.exports = {
         },
 
         editAccount: (account) => {
-            eventBus.$emit('accountEntryEdit', account, account.accountable.id)
+            eventBus.$emit('accountEntryEdit', account)
         },
 
         deleteAccount: (account) => {
