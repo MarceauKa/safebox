@@ -138,7 +138,7 @@ class AccountsController extends Controller
             $site = Site::findOrFail($id);
             $site->accounts()->save($account);
         }
-        else
+        elseif (false === is_null($account->accountable) && $request->get('site_id') != $account->accountable->id)
         {
             $account->accountable_type = null;
             $account->accountable_id = null;
