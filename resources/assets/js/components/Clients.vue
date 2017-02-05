@@ -4,7 +4,7 @@
             <div class="panel-heading">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>{{ $t('clients.title_all') }}</span>
-                    <a class="btn btn-sm btn-primary" @click="createClient">{{ $t('app.button_create') }}</a>
+                    <a class="btn btn-primary" @click="createClient">{{ $t('app.button_create') }}</a>
                 </div>
             </div>
 
@@ -31,7 +31,7 @@
                             {{ client.phone }}
                         </td>
                         <td>
-                            <div class="btn-group btn-group-xs">
+                            <div class="btn-group btn-group-sm">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ $t('app.button_action') }} <span class="caret"></span>
                                 </button>
