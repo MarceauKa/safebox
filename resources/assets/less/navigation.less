@@ -1,0 +1,52 @@
+#app > nav.navbar {
+  margin-bottom: 35px;
+
+  div.navbar-header {
+    height: 100px;
+    padding: 10px 0;
+    margin-right: 30px;
+  }
+
+  a.navbar-brand {
+    height: 80px;
+    padding: 20px 15px;
+    animation-name: logo;
+    animation-duration: 20s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: infinite;
+
+    img {
+      max-height: 100%;
+    }
+  }
+
+  ul.navbar-nav {
+    padding: 38px 0 0 0;
+
+    li {
+
+      a {
+        line-height: 24px;
+        font-size: 18px;
+        background-color: transparent;
+        margin-right: 15px;
+        padding: 5px 8px;
+        transition: all .4s ease;
+
+        &:hover {
+          color: @brand-primary;
+        }
+      }
+    }
+
+    ul.dropdown-menu {
+
+      li {
+
+        a {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

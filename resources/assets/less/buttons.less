@@ -1,0 +1,30 @@
+.btn {
+  transition: @btn-hover-transition;
+  box-shadow: 0 1px 2px @btn-box-shadow-color;
+
+  &.btn-default {
+    background-image: linear-gradient(@btn-background-gradient-direction, @white 0%, darken(@white, @btn-background-gradient-lighten) 100%);
+  }
+  &.btn-primary {
+    background-image: linear-gradient(@btn-background-gradient-direction, @brand-primary 0%, lighten(@brand-primary, @btn-background-gradient-lighten) 100%);
+  }
+  &.btn-info {
+    background-image: linear-gradient(@btn-background-gradient-direction, @brand-info 0%, lighten(@brand-info, @btn-background-gradient-lighten) 100%);
+  }
+  &.btn-danger {
+    background-image: linear-gradient(@btn-background-gradient-direction, @brand-danger 0%, lighten(@brand-danger, @btn-background-gradient-lighten) 100%);
+  }
+  &.btn-warning {
+    background-image: linear-gradient(@btn-background-gradient-direction, @brand-warning 0%, lighten(@brand-warning, @btn-background-gradient-lighten) 100%);
+  }
+  &.btn-success {
+    background-image: linear-gradient(@btn-background-gradient-direction, @brand-success 0%, lighten(@brand-success, @btn-background-gradient-lighten) 100%);
+  }
+
+  &:hover,
+  &:focus,
+  &.active {
+    transform: translateY(-5%);
+    box-shadow: 0 2px 6px darken(@btn-box-shadow-color, @btn-box-shadow-hover-darken);
+  }
+}
