@@ -1,3 +1,5 @@
+<p align="center"><img width="250" src="https://github.com/404labfr/safebox/blob/develop/public/img/logo.png?raw=true" alt="Safebox logo" /></p>
+
 # Safebox
 
 **Safebox** is a self-hosted web application for **developers** and **web agencies** to manage **clients**, **websites**, **accounts**, **procedures**, **snippets** and more.
