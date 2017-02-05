@@ -68,11 +68,11 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
-                            <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}</button>
-                            <button type="button" class="btn btn-primary" @click="save">{{ $t('app.button_save') }}</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
+                        <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}</button>
+                        <button type="button" class="btn btn-primary" @click="save">{{ $t('app.button_save') }}</button>
                     </div>
                 </div>
             </div>

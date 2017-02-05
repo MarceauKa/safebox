@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Safebox') }}
+                <img src="{{ url('img/logo.png') }}" alt="{{ config('app.name', 'Safebox') }}" class="img-responsive">
             </a>
         </div>
 
