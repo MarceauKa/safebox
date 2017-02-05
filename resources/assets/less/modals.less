@@ -1,16 +1,29 @@
-.modal-dialog {
-  border: none;
+.modal {
 
-  .modal-header {
-    background-color: @brand-primary;
-    color: white;
+  &.fade .modal-dialog {
+    transform: translate(0, -20%) scale(1.1);
+    transition: transform .4s ease-out;
   }
 
-  .modal-content {
+  &.in .modal-dialog {
+    transform: translate(0, 0) scale(1);
+  }
+
+  .modal-dialog {
+    margin-top: 10vh;
     border: none;
-  }
 
-  .modal-body {
-    padding: calc(@modal-inner-padding * 2px) @modal-inner-padding;
+    .modal-header {
+      background-color: @brand-primary;
+      color: white;
+    }
+
+    .modal-content {
+      border: none;
+    }
+
+    .modal-body {
+      padding: calc(@modal-inner-padding * 2px) @modal-inner-padding;
+    }
   }
 }
