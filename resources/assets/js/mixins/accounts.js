@@ -4,8 +4,8 @@ module.exports = {
             eventBus.$emit('accountEntryShow', account)
         },
 
-        createAccount: () => {
-            eventBus.$emit('accountEntryCreate')
+        createAccount: (siteId) => {
+            eventBus.$emit('accountEntryCreate', siteId)
         },
 
         editAccount: (account) => {

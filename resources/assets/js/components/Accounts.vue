@@ -4,7 +4,7 @@
             <div class="panel-heading">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span>{{ $t('accounts.title_all') }}</span>
-                    <a class="btn btn-sm btn-primary" @click="createAccount">{{ $t('app.button_create') }}</a>
+                    <a class="btn btn-sm btn-primary" @click="createAccount(siteId)">{{ $t('app.button_create') }}</a>
                 </div>
             </div>
             <div class="panel-body">

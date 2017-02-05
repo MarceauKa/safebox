@@ -121,14 +121,6 @@
 <script>
     export default {
 
-        props: {
-            siteId: {
-                type: Number,
-                required: false,
-                default: 0
-            }
-        },
-
         data() {
             return {
                 creating: false,
@@ -137,6 +129,7 @@
                 account: {},
                 sites: {},
                 history: [],
+                site_id: 0,
                 form: {
                     errors: [],
                     type: '',
@@ -152,7 +145,8 @@
                 this.show(account);
             });
 
-            eventBus.$on('accountEntryCreate', () => {
+            eventBus.$on('accountEntryCreate', (siteId) => {
+                this.site_id = siteId;
                 this.showCreate();
             });
 
@@ -210,6 +204,11 @@
                 this.form.type = '';
                 this.form.credential_login =  '';
                 this.form.credential_password =  '';
+
+                if (this.site_id) {
+                    this.form.site_id = this.site_id;
+                    this.site_id = 0;
+                }
 
                 $('#modal-form-account').modal('show');
                 $('#input-account-login').val('');
