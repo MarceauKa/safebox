@@ -31,7 +31,7 @@ abstract class DuskTestCase extends BaseTestCase
         $this->artisan('migrate:refresh');
         
         $this->beforeApplicationDestroyed(function () {
-            $this->artisan('migrate:refresh');
+            $this->artisan('migrate:reset');
         });
     }
 

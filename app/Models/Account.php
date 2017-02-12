@@ -67,7 +67,7 @@ class Account extends Model
      */
     public function getCredentialLoginAttribute()
     {
-        return decrypt($this->attributes['credential_login']);
+        return empty($this->attributes['credential_login']) ? null : decrypt($this->attributes['credential_login']);
     }
 
     /**
@@ -75,7 +75,7 @@ class Account extends Model
      */
     public function getCredentialPasswordAttribute()
     {
-        return decrypt($this->attributes['credential_password']);
+        return empty($this->attributes['credential_password']) ? null : decrypt($this->attributes['credential_password']);
     }
 
     /**
@@ -83,7 +83,7 @@ class Account extends Model
      */
     public function getCredentialCommentAttribute()
     {
-        return decrypt($this->attributes['credential_comment']);
+        return empty($this->attributes['credential_comment']) ? null : decrypt($this->attributes['credential_comment']);
     }
 
     /**

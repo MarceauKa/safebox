@@ -65,6 +65,7 @@ class ClientsTest extends DuskTestCase
                 ->type('@createInputName', 'New client name')
                 ->press('@createButtonSave')
                 ->waitUntilMissing('@modalForm')
+                ->waitFor('@table')
                 ->assertSeeIn('@table', 'New client name');
         });
     }
@@ -123,17 +124,18 @@ class ClientsTest extends DuskTestCase
         $this->runDatabaseMigrations();
         
         factory(Client::class, 50)->create();
-        $client  = Client::whereId(26)->first();
 
-        $this->browse(function (Browser $browser) use($client) {
+        $this->browse(function (Browser $browser) {
             $browser->loginAs(1)
                 ->visit(new Clients())
                 ->waitFor('@table')
-                ->assertSee('Next')
-                ->assertDontSee($client->name)
-                ->clickLink('Next')
+                ->assertSee('Next');
+
+            $value = $browser->text('table.table tbody tr td');
+
+            $browser->clickLink('Next')
                 ->pause(1000)
-                ->assertSee($client->name);
+                ->assertDontSee($value);
         });
     }
 }
