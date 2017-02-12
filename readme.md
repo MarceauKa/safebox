@@ -13,28 +13,27 @@ It's built with **Laravel 5.4** and **Vue.js 2**. All sensitive data are **encry
 - NPM
 - Linux (or OSX)
 
-### 1. Composer
+**Installation with composer**
 
 ```bash
 composer create-project 404labfr/safebox
 ```
 
-### 2. Configuration and database
+**Configuration and database**  
 
 Please update the `.env` file to your needs.  
 Once your database is configured:
-
 ```bash
 artisan migrate
 ```
 
 If you want fake data:
-
 ```bash
 artisan db:seed
 ```
 
-### 3. Assets
+**Assets**
+
 ```bash
 npm install
 npm run dev # or npm run production
@@ -59,9 +58,9 @@ You'll need :
     
 If you don't want screenshots you can specify the queue driver to `QUEUE_DRIVER=null` in your `.env` file.
 
-## Contribute
+## Changelog
 
-All contribution is welcome, please Pull Request or open your issues.
+Take a look at the [changelog file](https://github.com/404labfr/safebox/blob/develop/changelog.md).
 
 ## Tests
 
@@ -70,6 +69,10 @@ All contribution is welcome, please Pull Request or open your issues.
 ```bash
 artisan dusk
 ```
+
+## Contribute
+
+All contribution is welcome, please Pull Request or open your issues.
 
 ## License
 
