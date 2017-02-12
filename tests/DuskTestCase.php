@@ -29,11 +29,9 @@ abstract class DuskTestCase extends BaseTestCase
     public function runDatabaseMigrations()
     {
         $this->artisan('migrate:refresh');
-
-        $this->app[Kernel::class]->setArtisan(null);
-
+        
         $this->beforeApplicationDestroyed(function () {
-            $this->artisan('migrate:reset');
+            $this->artisan('migrate:refresh');
         });
     }
 

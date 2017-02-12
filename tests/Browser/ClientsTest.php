@@ -41,7 +41,7 @@ class ClientsTest extends DuskTestCase
                 ->type('@createInputName', 'Test client')
                 ->type('@createInputEmail', 'email@example.com')
                 ->press('@createButtonSave')
-                ->waitFor('@table')
+                ->waitUntilMissing('@modalForm')
                 ->assertSee('email@example.com');
         });
     }
@@ -120,6 +120,8 @@ class ClientsTest extends DuskTestCase
      */
     public function it_can_navigate_in_pagination()
     {
+        $this->runDatabaseMigrations();
+        
         factory(Client::class, 50)->create();
         $client  = Client::whereId(26)->first();
 
