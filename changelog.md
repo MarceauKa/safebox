@@ -1,6 +1,6 @@
 # Safebox Changelog
 
-## Develop
+## 1.1.2
 
 ### Clients
 - The `phone` field is not required anymore
