@@ -6,8 +6,7 @@
 - The `phone` field is not required anymore
 
 ### Accounts
-- Fix decrypt error when `comment` is empty
-- Fix decrypt when `login` or `password` is empty
+- Fix decrypt when `login`, `password` or `comment` is empty
 
 ### Tests
 - Fix how database migrations are done between each tests
