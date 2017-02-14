@@ -1,5 +1,13 @@
 # Safebox Changelog
 
+## 1.1.3
+
+### UI
+- Added Font-Awesome 4
+
+## Clients
+- Added fields `address`
+
 ## 1.1.2
 
 ### Clients

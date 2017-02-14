@@ -7,9 +7,10 @@
     "production": "node node_modules/cross-env/bin/cross-env.js NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
-    "laravel-mix": "~0.5",
     "bootstrap": "~3.3",
+    "font-awesome": "^4.7.0",
     "jquery": "~3.1",
+    "laravel-mix": "~0.5",
     "lodash": "~4",
     "vue": "~2.1",
     "vue-i18n": "~4.8",

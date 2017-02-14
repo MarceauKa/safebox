@@ -40,19 +40,37 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">{{ $t('clients.name') }}</label>
                                 <div class="col-md-7">
-                                    <input id="input-client-name" type="text" class="form-control" v-model="form.name">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                        <input id="input-client-name" type="text" class="form-control" v-model="form.name">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">{{ $t('clients.email') }}</label>
                                 <div class="col-md-7">
-                                    <input type="email" class="form-control" name="email" v-model="form.email">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-at"></i></span>
+                                        <input type="email" class="form-control" name="email" v-model="form.email">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">{{ $t('clients.phone') }}</label>
                                 <div class="col-md-7">
-                                    <input type="text" class="form-control" name="phone" v-model="form.phone">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                        <input type="text" class="form-control" name="phone" v-model="form.phone">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">{{ $t('clients.address') }}</label>
+                                <div class="col-md-7">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                        <input type="text" class="form-control" name="address" v-model="form.address">
+                                    </div>
                                 </div>
                             </div>
                         </form>
