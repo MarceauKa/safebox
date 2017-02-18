@@ -28,13 +28,14 @@
                             <td style="vertical-align: middle;"><password :password="account.credential_password"></password></td>
                             <td>
                                 <div class="btn-group btn-group-sm">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ $t('app.button_action') }} <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a @click="editAccount(account)">{{ $t('app.button_edit') }}</a></li>
-                                        <li><a @click="deleteAccount(account)">{{ $t('app.button_delete') }}</a></li>
-                                    </ul>
+                                    <a @click="editAccount(account)" class="btn btn-default">
+                                        <i class="fa fa-edit"></i>
+                                        <span class="tooltip">{{ $t('app.button_edit') }}</span>
+                                    </a>
+                                    <a @click="deleteAccount(account)" class="btn btn-default">
+                                        <i class="fa fa-trash"></i>
+                                        <span class="tooltip tooltip-danger">{{ $t('app.button_delete') }}</span>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
