@@ -15,8 +15,8 @@
                         <thead>
                         <tr>
                             <th>{{ $t('clients.name') }}</th>
-                            <th class="hidden-xs">{{ $t('clients.email') }}</th>
-                            <th class="hidden-xs">{{ $t('clients.phone') }}</th>
+                            <th>{{ $t('clients.email') }}</th>
+                            <th>{{ $t('clients.phone') }}</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -25,10 +25,10 @@
                             <td style="vertical-align: middle;">
                                 {{ client.name }}
                             </td>
-                            <td style="vertical-align: middle;" class="hidden-xs">
+                            <td style="vertical-align: middle;">
                                 {{ client.email }}
                             </td>
-                            <td style="vertical-align: middle;" class="hidden-xs">
+                            <td style="vertical-align: middle;">
                                 {{ client.phone }}
                             </td>
                             <td>

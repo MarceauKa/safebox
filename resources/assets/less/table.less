@@ -1,0 +1,49 @@
+.table {
+
+  @media screen and (max-width: @grid-float-breakpoint-max) {
+    & {
+      border: none;
+
+      tbody,
+      thead {
+        display: block;
+        border: none;
+
+        tr {
+          display: block;
+          border-bottom: 1px solid @laravel-border-color;
+          margin-bottom: 15px;
+          padding-bottom: 15px;
+
+          th {
+            display: none;
+          }
+
+          td {
+            display: block;
+            border: none;
+            padding: 4px 0;
+
+            &:last-child {
+              text-align: right;
+            }
+          }
+        }
+      }
+
+      thead {
+        tr {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.table-responsive {
+  @media screen and (max-width: @grid-float-breakpoint-max) {
+    & {
+      border: none;
+    }
+  }
+}
