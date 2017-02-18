@@ -6,7 +6,7 @@
 - Added Font-Awesome 4
 
 ## Clients
-- Added fields `address`
+- Added fields `address`, `note`, `facebook` and `twitter`
 
 ## 1.1.2
 

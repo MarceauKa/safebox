@@ -24,7 +24,10 @@ class ClientsController extends Controller
      */
     public function lists()
     {
-        $clients = Client::orderBy('name', 'asc')->get(['id', 'name']);
+        $clients = Client::orderBy('name', 'asc')->get([
+            'id',
+            'name'
+        ]);
 
         if (!$clients->isEmpty())
         {
@@ -54,15 +57,23 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'  => 'required|max:255',
-            'email' => 'required|email',
-            'phone' => 'max:20',
+            'name'     => 'required|max:255',
+            'email'    => 'required|email',
+            'phone'    => 'max:20',
+            'address'  => 'max:255',
+            'note'     => 'max:255',
+            'facebook' => 'max:255',
+            'twitter'  => 'max:255',
         ]);
 
         $client = new Client();
         $client->name = $request->get('name');
         $client->email = $request->get('email');
         $client->phone = $request->get('phone');
+        $client->address = $request->get('address');
+        $client->note = $request->get('note');
+        $client->facebook = $request->get('facebook');
+        $client->twitter = $request->get('twitter');
         $client->save();
 
         return response('ok', 200);
@@ -78,15 +89,23 @@ class ClientsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name'  => 'required|max:255',
-            'email' => 'required|email',
-            'phone' => 'max:20',
+            'name'     => 'required|max:255',
+            'email'    => 'required|email',
+            'phone'    => 'max:20',
+            'address'  => 'max:255',
+            'note'     => 'max:255',
+            'facebook' => 'max:255',
+            'twitter'  => 'max:255',
         ]);
 
         $client = Client::findOrFail($id);
         $client->name = $request->get('name');
         $client->email = $request->get('email');
         $client->phone = $request->get('phone');
+        $client->address = $request->get('address');
+        $client->note = $request->get('note');
+        $client->facebook = $request->get('facebook');
+        $client->twitter = $request->get('twitter');
         $client->save();
 
         return response('ok', 200);
@@ -119,10 +138,15 @@ class ClientsController extends Controller
 
         if (!$client->revisionHistory->isEmpty())
         {
-            $history = $client->revisionHistory->groupBy(function ($item, $key) {
+            $history = $client->revisionHistory->groupBy(function ($item, $key)
+            {
                 return substr($item->created_at, 0, 10);
-            })->map(function($item, $key) {
-                return collect(['date' => $key, 'entries' => $item]);
+            })->map(function ($item, $key)
+            {
+                return collect([
+                    'date'    => $key,
+                    'entries' => $item
+                ]);
             })->values();
         }
 

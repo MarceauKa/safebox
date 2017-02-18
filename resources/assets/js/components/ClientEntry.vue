@@ -30,16 +30,16 @@
                         <h4 class="modal-title" v-if="editing">{{ $t('clients.title_edit') }} : {{ form.name }}</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="alert alert-danger" v-if="form.errors.length > 0">
+                        <div class="alert alert-danger" v-if="errors.length > 0">
                             <p>{{ $t('app.validation_error') }}</p>
                             <ul>
-                                <li v-for="error in form.errors">{{ error }}</li>
+                                <li v-for="error in errors">{{ error }}</li>
                             </ul>
                         </div>
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label class="col-md-3 control-label">{{ $t('clients.name') }}</label>
-                                <div class="col-md-7">
+                                <div class="col-md-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
                                         <input id="input-client-name" type="text" class="form-control" v-model="form.name">
@@ -48,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">{{ $t('clients.email') }}</label>
-                                <div class="col-md-7">
+                                <div class="col-md-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-at"></i></span>
                                         <input type="email" class="form-control" name="email" v-model="form.email">
@@ -57,7 +57,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">{{ $t('clients.phone') }}</label>
-                                <div class="col-md-7">
+                                <div class="col-md-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                         <input type="text" class="form-control" name="phone" v-model="form.phone">
@@ -66,11 +66,35 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">{{ $t('clients.address') }}</label>
-                                <div class="col-md-7">
+                                <div class="col-md-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                         <input type="text" class="form-control" name="address" v-model="form.address">
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">{{ $t('clients.facebook') }}</label>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-facebook"></i></span>
+                                        <input type="text" class="form-control" name="facebook" v-model="form.facebook" :placeholder="$t('clients.placeholders.facebook')">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">{{ $t('clients.twitter') }}</label>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
+                                        <input type="text" class="form-control" name="twitter" v-model="form.twitter" :placeholder="$t('clients.placeholders.twitter')">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">{{ $t('clients.note') }}</label>
+                                <div class="col-md-9">
+                                    <textarea name="note" class="form-control" v-model="form.note"></textarea>
                                 </div>
                             </div>
                         </form>
@@ -125,6 +149,18 @@
 </template>
 
 <script>
+
+    const form = {
+        id: null,
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        twitter: '',
+        facebook: '',
+        note: ''
+    };
+
     export default {
 
         data() {
@@ -133,12 +169,8 @@
                 editing: false,
                 client: {},
                 history: [],
-                form: {
-                    errors: [],
-                    name: '',
-                    email: '',
-                    phone: ''
-                }
+                errors: [],
+                form: _.assign(form)
             };
         },
 
@@ -203,10 +235,7 @@
             showCreate() {
                 this.editing = false;
                 this.creating = true;
-                this.form.id = null;
-                this.form.name = '';
-                this.form.phone = '';
-                this.form.email = '';
+                this.form = _.assign({}, form);
 
                 $('#modal-form-client').modal('show');
             },
@@ -228,10 +257,7 @@
                 this.clearShow();
                 this.editing = true;
                 this.creating = false;
-                this.form.id = client.id;
-                this.form.name = client.name;
-                this.form.phone = client.phone;
-                this.form.email = client.email;
+                this.form = client;
 
                 $('#modal-client-history').modal('hide');
                 $('#modal-form-client').modal('show');
@@ -242,10 +268,7 @@
 
                 this.$http[method](uri, form)
                     .then(response => {
-                        form.name = '';
-                        form.email = '';
-                        form.phone = [];
-
+                        this.form = _.assign({}, form);
                         this.editing = false;
                         this.creating = false;
                         eventBus.$emit('clientsRefresh');

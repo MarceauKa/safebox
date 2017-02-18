@@ -17,6 +17,10 @@ class CreateClientsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('facebook')->nullable();
+            $table->text('note')->nullable();
             $table->string('email');
             $table->timestamps();
         });

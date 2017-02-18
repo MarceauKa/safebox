@@ -44,7 +44,15 @@ module.exports = {
         empty: "You have not created any clients.",
         name: "Name",
         email: "Email",
-        phone: "Phone"
+        phone: "Phone",
+        address: "Address",
+        note: "Note",
+        facebook: "Facebook",
+        twitter: "Twitter",
+        placeholders: {
+            facebook: "Facebook page URL",
+            twitter: "Twitter account. Ex: @404labfr"
+        }
     },
     sites: {
         singular: "Site",

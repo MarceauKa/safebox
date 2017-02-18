@@ -15,7 +15,11 @@ class Client extends Model
         'id',
         'name',
         'email',
-        'phone'
+        'phone',
+        'address',
+        'note',
+        'facebook',
+        'twitter'
     ];
 
     /** @var bool */
@@ -28,7 +32,11 @@ class Client extends Model
     protected $keepRevisionOf = array(
         'name',
         'phone',
-        'email'
+        'email',
+        'address',
+        'note',
+        'facebook',
+        'twitter'
     );
 
     /**
