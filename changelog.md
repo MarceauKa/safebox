@@ -4,6 +4,8 @@
 
 ### UI
 - Added Font-Awesome 4
+- Updated action buttons for components `Clients`, `Sites` and `Accounts`
+- Updated components `Clients`, `Sites` and `Accounts` to fit better in responsive
 
 ## Clients
 - Added fields `address`, `note`, `facebook` and `twitter`

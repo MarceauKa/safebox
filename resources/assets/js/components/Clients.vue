@@ -15,8 +15,8 @@
                         <thead>
                         <tr>
                             <th>{{ $t('clients.name') }}</th>
-                            <th>{{ $t('clients.email') }}</th>
-                            <th>{{ $t('clients.phone') }}</th>
+                            <th class="hidden-xs">{{ $t('clients.email') }}</th>
+                            <th class="hidden-xs">{{ $t('clients.phone') }}</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -25,21 +25,22 @@
                             <td style="vertical-align: middle;">
                                 {{ client.name }}
                             </td>
-                            <td style="vertical-align: middle;">
+                            <td style="vertical-align: middle;" class="hidden-xs">
                                 {{ client.email }}
                             </td>
-                            <td style="vertical-align: middle;">
+                            <td style="vertical-align: middle;" class="hidden-xs">
                                 {{ client.phone }}
                             </td>
                             <td>
-                                <div class="btn-group btn-group-sm">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ $t('app.button_action') }} <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a @click="editClient(client)">{{ $t('app.button_edit') }}</a></li>
-                                        <li><a @click="deleteClient(client)">{{ $t('app.button_delete') }}</a></li>
-                                    </ul>
+                                <div class="btn-group btn-group-sm btn-actions">
+                                    <a @click="editClient(client)" class="btn btn-default">
+                                        <i class="fa fa-pencil"></i>
+                                        <span class="tooltip">{{ $t('app.button_edit') }}</span>
+                                    </a>
+                                    <a @click="deleteClient(client)" class="btn btn-default">
+                                        <i class="fa fa-trash"></i>
+                                        <span class="tooltip tooltip-danger">{{ $t('app.button_delete') }}</span>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
