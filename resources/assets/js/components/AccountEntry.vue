@@ -8,8 +8,7 @@
                         <h4 class="modal-title">Account</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                        </div>
+                        <div class="form-group"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -28,48 +27,50 @@
                     </div>
 
                     <div class="modal-body">
-                        <div class="alert alert-danger" v-if="form.errors.length > 0">
-                            <p>{{ $t('app.validation_error') }}<br>
-                            <ul>
-                                <li v-for="error in form.errors">{{ error }}</li>
-                            </ul>
+                        <p class="alert alert-danger" v-if="form.errors.length > 0">
+                        <p>{{ $t('app.validation_error') }}<br>
+                        <ul>
+                            <li v-for="error in form.errors">{{ error }}</li>
+                        </ul>
+                        </p>
+                    </div>
+                    <form role="form" autocomplete="off">
+                        <div class="form-group">
+                            <label>{{ $t('accounts.site') }}</label>
+                            <select name="site_id" v-model="form.site_id" class="form-control">
+                                <option value="">{{ $t('app.option_choose') }}</option>
+                                <option v-for="(site, index) in sites" :value="index" v-text="site"></option>
+                            </select>
                         </div>
-                        <form role="form" autocomplete="off">
-                            <div class="form-group">
-                                <label>{{ $t('accounts.site') }}</label>
-                                <select name="site_id" v-model="form.site_id" class="form-control">
-                                    <option value="">{{ $t('app.option_choose') }}</option>
-                                    <option v-for="(site, index) in sites" :value="index" v-text="site"></option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>{{ $t('accounts.type') }}</label>
-                                <select name="type" v-model="form.type" class="form-control">
-                                    <option value="">{{ $t('app.option_choose') }}</option>
-                                    <option v-for="(type, key, index) in types" :value="key">{{ type }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>{{ $t('accounts.login') }}</label>
-                                <input type="text" class="form-control" id="input-account-login" name="credential_login"
-                                       v-model="form.credential_login" autocomplete="off">
-                            </div>
-                            <div class="form-group">
-                                <label>{{ $t('accounts.password') }}</label>
-                                <input type="password" class="form-control" id="input-account-password" name="credential_password"
-                                       v-model="form.credential_password" autocomplete="off">
-                            </div>
-                            <div class="form-group">
-                                <label>{{ $t('accounts.comment') }}</label>
-                                <textarea class="form-control" name="credential_comment" v-model="form.credential_comment"></textarea>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
-                        <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}</button>
-                        <button type="button" class="btn btn-primary" @click="save">{{ $t('app.button_save') }}</button>
-                    </div>
+                        <div class="form-group">
+                            <label>{{ $t('accounts.type') }}</label>
+                            <select name="type" v-model="form.type" class="form-control">
+                                <option value="">{{ $t('app.option_choose') }}</option>
+                                <option v-for="(type, key, index) in types" :value="key">{{ type }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ $t('accounts.login') }}</label>
+                            <input type="text" class="form-control" id="input-account-login" name="credential_login"
+                                   v-model="form.credential_login" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ $t('accounts.password') }}</label>
+                            <input type="password" class="form-control" id="input-account-password"
+                                   name="credential_password"
+                                   v-model="form.credential_password" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ $t('accounts.comment') }}</label>
+                            <textarea class="form-control" name="credential_comment"
+                                      v-model="form.credential_comment"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
+                    <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}</button>
+                    <button type="button" class="btn btn-primary" @click="save">{{ $t('app.button_save') }}</button>
                 </div>
             </div>
         </div>
@@ -140,24 +141,29 @@
         mounted() {
             eventBus.$on('accountEntryShow', (account) => {
                 this.show(account);
-            });
+        })
+            ;
 
             eventBus.$on('accountEntryCreate', (siteId) => {
                 this.site_id = siteId;
-                this.showCreate();
-            });
+            this.showCreate();
+        })
+            ;
 
             eventBus.$on('accountEntryEdit', (account) => {
                 this.showEdit(account);
-            });
+        })
+            ;
 
             eventBus.$on('accountEntryDelete', (account) => {
                 this.delete(account);
-            });
+        })
+            ;
 
             eventBus.$on('accountHistoryShow', (account) => {
                 this.showHistory(account);
-            });
+        })
+            ;
 
             this.getTypes();
             this.getSites();
@@ -168,11 +174,11 @@
             getTypes() {
                 this.$http.get('/api/accounts/types')
                         .then(response => {
-                            this.types = response.data;
-                        })
-                        .catch(response => {
-                            console.log(response);
-                        })
+                    this.types = response.data;
+                })
+                .catch(response => {
+                    console.log(response);
+                })
             },
 
             getSites() {
@@ -187,8 +193,7 @@
                         .then(response => {
                             this.account = response.data;
                             $('#modal-show-account').modal('show');
-                        })
-                        .catch(response => {
+                        }).catch(response => {
                             console.log(response);
                         })
             },
@@ -199,9 +204,9 @@
                 this.form.id = null;
                 this.form.site_id = '';
                 this.form.type = '';
-                this.form.credential_login =  '';
-                this.form.credential_password =  '';
-                this.form.credential_comment =  '';
+                this.form.credential_login = '';
+                this.form.credential_password = '';
+                this.form.credential_comment = '';
 
                 if (this.site_id) {
                     this.form.site_id = this.site_id;
@@ -216,17 +221,15 @@
             showHistory(account) {
                 this.$http['get']('/api/accounts/history/' + account.id)
                         .then(response => {
-                    this.account = response.data.account;
-                    this.history = response.data.history;
-
-                    $('#modal-form-account').modal('hide');
-                    $('#modal-account-history').modal('show');
-                })
-                .catch(response => {
-                    this.sites = {};
-                    this.history = [];
-                    console.log(response);
-                })
+                            this.account = response.data.account;
+                            this.history = response.data.history;
+                            $('#modal-form-account').modal('hide');
+                            $('#modal-account-history').modal('show');
+                        }).catch(response => {
+                            this.sites = {};
+                            this.history = [];
+                            console.log(response);
+                        })
             },
 
             showEdit(account) {
@@ -262,25 +265,24 @@
                 form.errors = [];
 
                 this.$http[method](uri, form)
-                    .then(response => {
-                        form.type = '';
-                        form.site_id = '';
-                        form.credential_login = '';
-                        form.credential_password = '';
-                        form.credential_comment = '';
+                        .then(response => {
+                            form.type = '';
+                            form.site_id = '';
+                            form.credential_login = '';
+                            form.credential_password = '';
+                            form.credential_comment = '';
 
-                        this.editing = false;
-                        this.creating = false;
-                        eventBus.$emit('accountsRefresh');
-                        $(modal).modal('hide');
-                    })
-                    .catch(response => {
-                        if (typeof response.data === 'object') {
-                            form.errors = _.flatten(_.toArray(response.data));
-                        } else {
-                            form.errors = [$('app.http_error')];
-                        }
-                    });
+                            this.editing = false;
+                            this.creating = false;
+                            eventBus.$emit('accountsRefresh');
+                            $(modal).modal('hide');
+                        }).catch(response => {
+                            if (typeof response.data === 'object') {
+                                form.errors = _.flatten(_.toArray(response.data));
+                            } else {
+                                form.errors = [$('app.http_error')];
+                            }
+                        });
             },
 
             delete(account) {

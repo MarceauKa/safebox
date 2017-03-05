@@ -1,8 +1,5 @@
-@extends('layouts.side-search')
+@extends('layouts.app')
 
 @section('content')
-    <div class="panel panel-default">
-        <div class="panel-heading">{{ trans('app.pages.dashboard') }}</div>
-        <div class="panel-body"></div>
-    </div>
+    <widgets></widgets>
 @endsection
