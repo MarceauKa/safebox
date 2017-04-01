@@ -26,17 +26,14 @@
                             <td style="vertical-align: middle;"><a class="btn-link" @click.prevent="showClient(site.client)">{{ site.client.name }}</a></td>
                             <td>
                                 <div class="btn-group btn-group-sm">
-                                    <a @click="showSite(site)" class="btn btn-default">
+                                    <a @click="showSite(site)" class="btn btn-default" :title="$t('app.button_see')">
                                         <i class="fa fa-eye"></i>
-                                        <span class="tooltip">{{ $t('app.button_see') }}</span>
                                     </a>
-                                    <a @click="editSite(site)" class="btn btn-default">
+                                    <a @click="editSite(site)" class="btn btn-default" :title="$t('app.button_edit')">
                                         <i class="fa fa-pencil"></i>
-                                        <span class="tooltip">{{ $t('app.button_edit') }}</span>
                                     </a>
-                                    <a @click="deleteSite(site)" class="btn btn-default">
+                                    <a @click="deleteSite(site)" class="btn btn-default" :title="$t('app.button_delete')">
                                         <i class="fa fa-trash"></i>
-                                        <span class="tooltip tooltip-danger">{{ $t('app.button_delete') }}</span>
                                     </a>
                                 </div>
                             </td>

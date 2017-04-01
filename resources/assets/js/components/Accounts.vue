@@ -28,13 +28,11 @@
                             <td style="vertical-align: middle;"><password :password="account.credential_password"></password></td>
                             <td>
                                 <div class="btn-group btn-group-sm">
-                                    <a @click="editAccount(account)" class="btn btn-default">
+                                    <a @click="editAccount(account)" class="btn btn-default" :title="{{ $t('app.button_edit') }}">
                                         <i class="fa fa-edit"></i>
-                                        <span class="tooltip">{{ $t('app.button_edit') }}</span>
                                     </a>
-                                    <a @click="deleteAccount(account)" class="btn btn-default">
+                                    <a @click="deleteAccount(account)" class="btn btn-default" :title="$t('app.button_delete')">
                                         <i class="fa fa-trash"></i>
-                                        <span class="tooltip tooltip-danger">{{ $t('app.button_delete') }}</span>
                                     </a>
                                 </div>
                             </td>

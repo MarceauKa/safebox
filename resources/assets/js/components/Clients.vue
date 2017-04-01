@@ -33,13 +33,11 @@
                             </td>
                             <td>
                                 <div class="btn-group btn-group-sm btn-actions">
-                                    <a @click="editClient(client)" class="btn btn-default">
+                                    <a @click="editClient(client)" class="btn btn-default" :title="$t('app.button_edit')">
                                         <i class="fa fa-pencil"></i>
-                                        <span class="tooltip">{{ $t('app.button_edit') }}</span>
                                     </a>
-                                    <a @click="deleteClient(client)" class="btn btn-default">
+                                    <a @click="deleteClient(client)" class="btn btn-default" :title="$t('app.button_delete')">
                                         <i class="fa fa-trash"></i>
-                                        <span class="tooltip tooltip-danger">{{ $t('app.button_delete') }}</span>
                                     </a>
                                 </div>
                             </td>
