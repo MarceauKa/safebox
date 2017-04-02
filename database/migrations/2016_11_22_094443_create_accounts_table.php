@@ -16,9 +16,7 @@ class CreateAccountsTable extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('type');
-            $table->text('credential_login');
-            $table->text('credential_password');
-            $table->text('credential_comment')->nullable();
+            $table->text('credentials')->nullable();
             $table->string('accountable_type')->nullable();
             $table->integer('accountable_id')->nullable();
             $table->timestamps();

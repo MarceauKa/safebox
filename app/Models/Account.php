@@ -3,47 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Venturecraft\Revisionable\RevisionableTrait;
 
 class Account extends Model
 {
-    use RevisionableTrait;
-
-    /** @var bool */
-    protected $revisionCleanup = true;
-
-    /** @var int  */
-    protected $historyLimit = 500;
-
-    /** @var array */
-    protected $keepRevisionOf = array(
-        'type',
-        'credential_login',
-        'credential_password',
-        'credential_comment'
-    );
 
     /** @var array */
     public static $accounts_type = [
-        'ssh'   => 'SSH',
-        'ftp'   => 'FTP',
+        'ssh' => 'SSH',
+        'ftp' => 'FTP',
         'mysql' => 'MySQL',
-        'admin' => 'Administration',
-        'mail'  => 'Mail'
+        'website' => 'Website',
+        'mail' => 'Email'
     ];
 
-    /** @var array  */
+    /** @var array */
     protected $visible = [
         'id',
         'type',
         'type_name',
-        'credential_login',
-        'credential_password',
-        'credential_comment',
+        'credentials',
         'accountable'
     ];
 
-    /** @var array  */
+    /** @var array */
     protected $appends = ['type_name'];
 
     /**
@@ -59,54 +41,23 @@ class Account extends Model
      */
     public function getTypeNameAttribute()
     {
-        return array_key_exists($this->attributes['type'], self::$accounts_type) ? self::$accounts_type[$this->attributes['type']] : '???';
+        $type = $this->attributes['type'];
+        return array_key_exists($type, self::$accounts_type) ? self::$accounts_type[$this->attributes['type']] : '???';
     }
 
     /**
      * @return  string
      */
-    public function getCredentialLoginAttribute()
+    public function getCredentialsAttribute()
     {
-        return empty($this->attributes['credential_login']) ? null : decrypt($this->attributes['credential_login']);
-    }
-
-    /**
-     * @return  string
-     */
-    public function getCredentialPasswordAttribute()
-    {
-        return empty($this->attributes['credential_password']) ? null : decrypt($this->attributes['credential_password']);
-    }
-
-    /**
-     * @return  string
-     */
-    public function getCredentialCommentAttribute()
-    {
-        return empty($this->attributes['credential_comment']) ? null : decrypt($this->attributes['credential_comment']);
+        return empty($this->attributes['credentials']) ? null : json_decode(decrypt($this->attributes['credentials']));
     }
 
     /**
      * @return  void
      */
-    public function setCredentialLoginAttribute($value)
+    public function setCredentialsAttribute($value)
     {
-        $this->attributes['credential_login'] = encrypt($value);
-    }
-
-    /**
-     * @return  void
-     */
-    public function setCredentialPasswordAttribute($value)
-    {
-        $this->attributes['credential_password'] = encrypt($value);
-    }
-
-    /**
-     * @return  void
-     */
-    public function setCredentialCommentAttribute($value)
-    {
-        $this->attributes['credential_comment'] = encrypt($value);
+        $this->attributes['credentials'] = encrypt(json_encode($value));
     }
 }

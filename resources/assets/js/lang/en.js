@@ -76,8 +76,43 @@ module.exports = {
         empty: "You have not created any accounts.",
         site: "Site",
         type: "Type",
-        login: "Login",
-        password: "Password",
-        comment: "Comment",
+        types: {
+            ssh: {
+                host: 'Host',
+                login: 'User',
+                password: 'Password',
+                port: 'Port',
+                comment: 'Comment',
+            },
+            ftp: {
+                host: 'Host',
+                login: 'User',
+                password: 'Password',
+                port: 'Port',
+                comment: 'Comment',
+            },
+            mysql: {
+                host: 'Host',
+                login: 'User',
+                password: 'Password',
+                database: 'Database',
+                port: 'Port',
+                comment: 'Comment',
+            },
+            website: {
+                name: 'Custom name',
+                url: 'URL',
+                login: 'Login',
+                password: 'Password',
+                comment: 'Comment',
+            },
+            email: {
+                name: 'Name',
+                url: 'Webmail URL',
+                login: 'Login',
+                password: 'Password',
+                comment: 'Comment',
+            }
+        }
     }
 };

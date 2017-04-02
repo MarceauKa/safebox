@@ -36,7 +36,6 @@ Route::group([
     $router->get('sites/history/{id}', 'Api\SitesController@history');
     $router->resource('sites', 'Api\SitesController');
 
-    $router->get('accounts/types', 'Api\AccountsController@types');
     $router->get('accounts/history/{id}', 'Api\AccountsController@history');
     $router->resource('accounts', 'Api\AccountsController');
 
