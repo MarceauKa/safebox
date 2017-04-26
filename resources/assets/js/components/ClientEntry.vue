@@ -21,6 +21,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Modal create / edit -->
         <div class="modal fade" id="modal-form-client" tabindex="-1" role="dialog">
             <div class="modal-dialog">
@@ -30,71 +31,72 @@
                         <h4 class="modal-title" v-if="editing">{{ $t('clients.title_edit') }} : {{ form.name }}</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="alert alert-danger" v-if="errors.length > 0">
-                            <p>{{ $t('app.validation_error') }}</p>
-                            <ul>
-                                <li v-for="error in errors">{{ error }}</li>
-                            </ul>
-                        </div>
                         <form class="form-horizontal" role="form">
-                            <div class="form-group">
+                            <div class="form-group" :class="{'has-error': errors.has('name')}">
                                 <label class="col-md-3 control-label">{{ $t('clients.name') }}</label>
                                 <div class="col-md-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
                                         <input id="input-client-name" type="text" class="form-control" v-model="form.name">
                                     </div>
+                                    <span class="help-block" v-if="errors.has('name')" v-text="errors.get('name')"></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" :class="{'has-error': errors.has('email')}">
                                 <label class="col-md-3 control-label">{{ $t('clients.email') }}</label>
                                 <div class="col-md-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-at"></i></span>
                                         <input type="email" class="form-control" name="email" v-model="form.email">
                                     </div>
+                                    <span class="help-block" v-if="errors.has('email')" v-text="errors.get('email')"></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" :class="{'has-error': errors.has('phone')}">
                                 <label class="col-md-3 control-label">{{ $t('clients.phone') }}</label>
                                 <div class="col-md-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                         <input type="text" class="form-control" name="phone" v-model="form.phone">
                                     </div>
+                                    <span class="help-block" v-if="errors.has('phone')" v-text="errors.get('phone')"></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" :class="{'has-error': errors.has('address')}">
                                 <label class="col-md-3 control-label">{{ $t('clients.address') }}</label>
                                 <div class="col-md-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                         <input type="text" class="form-control" name="address" v-model="form.address">
                                     </div>
+                                    <span class="help-block" v-if="errors.has('address')" v-text="errors.get('address')"></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" :class="{'has-error': errors.has('facebook')}">
                                 <label class="col-md-3 control-label">{{ $t('clients.facebook') }}</label>
                                 <div class="col-md-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-facebook"></i></span>
                                         <input type="text" class="form-control" name="facebook" v-model="form.facebook" :placeholder="$t('clients.placeholders.facebook')">
                                     </div>
+                                    <span class="help-block" v-if="errors.has('facebook')" v-text="errors.get('facebook')"></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" :class="{'has-error': errors.has('twitter')}">
                                 <label class="col-md-3 control-label">{{ $t('clients.twitter') }}</label>
                                 <div class="col-md-9">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
                                         <input type="text" class="form-control" name="twitter" v-model="form.twitter" :placeholder="$t('clients.placeholders.twitter')">
                                     </div>
+                                    <span class="help-block" v-if="errors.has('twitter')" v-text="errors.get('twitter')"></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" :class="{'has-error': errors.has('note')}">
                                 <label class="col-md-3 control-label">{{ $t('clients.note') }}</label>
                                 <div class="col-md-9">
                                     <textarea name="note" class="form-control" v-model="form.note"></textarea>
+                                    <span class="help-block" v-if="errors.has('note')" v-text="errors.get('note')"></span>
                                 </div>
                             </div>
                         </form>
@@ -107,6 +109,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Modal history -->
         <div class="modal fade" id="modal-client-history" tabindex="-1" role="dialog">
             <div class="modal-dialog">
@@ -161,6 +164,8 @@
         note: ''
     };
 
+    import {Errors} from '../services/errors';
+
     export default {
 
         data() {
@@ -169,7 +174,7 @@
                 editing: false,
                 client: {},
                 history: [],
-                errors: [],
+                errors: new Errors(),
                 form: _.assign(form)
             };
         },
@@ -264,7 +269,7 @@
             },
 
             persist(method, uri, form, modal) {
-                form.errors = [];
+                this.errors.reset();
 
                 this.$http[method](uri, form)
                     .then(response => {
@@ -275,11 +280,7 @@
                         $(modal).modal('hide');
                     })
                     .catch(response => {
-                        if (typeof response.data === 'object') {
-                            form.errors = _.flatten(_.toArray(response.data));
-                        } else {
-                            form.errors = [$t('app.http_error')];
-                        }
+                        this.errors.record(response.data);
                     });
             },
 
