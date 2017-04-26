@@ -1,4 +1,4 @@
-<p align="center"><img width="250" src="https://github.com/404labfr/safebox/blob/develop/public/img/logo.png?raw=true" alt="Safebox logo" /></p>
+<p align="center"><img width="250" src="public/img/logo.png?raw=true" alt="Safebox logo" /></p>
 
 # Safebox
 
@@ -36,14 +36,14 @@ artisan db:seed
 
 ```bash
 npm install
-npm run dev # or npm run production
+npm run [dev|watch|production]
 ```
 
 ## Documentation
 
 ### Default user
 
-Email: `admin@safebox.com`
+Email: `admin@safebox.com`  
 Password: `password`
 
 ### Website screenshots
@@ -51,11 +51,9 @@ Password: `password`
 When adding a website a screenshot is taken. 
 
 You'll need :  
-- **PhantomJS** (installed when `npm install`).
-- A Laravel worker:
-    1. `artisan queue:work` or `artisan queue:listen`.
-    2. A CRON task to `artisan schedule:run` (see the Laravel documentation).
-    
+- **PhantomJS** : installed when `npm install`.
+- A Laravel worker : see the [queue documentation](https://laravel.com/docs/5.4/queues)
+   
 If you don't want screenshots you can specify the queue driver to `QUEUE_DRIVER=null` in your `.env` file.
 
 ## Changelog
@@ -64,10 +62,10 @@ Take a look at the [changelog file](https://github.com/404labfr/safebox/blob/dev
 
 ## Tests
 
-**Safebox** uses End-to-End tests with **Laravel Dusk**.
+**Safebox** uses features tests with PHPUnit 5.7.
  
 ```bash
-artisan dusk
+vendor/bin/phpunit
 ```
 
 ## Contribute

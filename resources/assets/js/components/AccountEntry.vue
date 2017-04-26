@@ -42,32 +42,16 @@
                                     <option v-for="(site, index) in sites" :value="index" v-text="site"></option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label>{{ $t('accounts.type') }}</label>
-                                <select name="type" v-model="form.type" class="form-control">
-                                    <option value="">{{ $t('app.option_choose') }}</option>
-                                    <option v-for="(type, key, index) in types" :value="key">{{ type }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>{{ $t('accounts.login') }}</label>
-                                <input type="text" class="form-control" id="input-account-login" name="credential_login"
-                                       v-model="form.credential_login" autocomplete="off">
-                            </div>
-                            <div class="form-group">
-                                <label>{{ $t('accounts.password') }}</label>
-                                <input type="password" class="form-control" id="input-account-password" name="credential_password"
-                                       v-model="form.credential_password" autocomplete="off">
-                            </div>
-                            <div class="form-group">
-                                <label>{{ $t('accounts.comment') }}</label>
-                                <textarea class="form-control" name="credential_comment" v-model="form.credential_comment"></textarea>
-                            </div>
+                            <account-type :account-type="form.type" :account-credentials="form.credentials" @updated="credentialsUpdated"></account-type>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
-                        <button type="button" class="btn btn-default" @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}</button>
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">{{ $t('app.button_close') }}
+                        </button>
+                        <button type="button" class="btn btn-default"
+                                @click="showHistory(form)" v-show="editing">{{ $t('app.button_history') }}
+                        </button>
                         <button type="button" class="btn btn-primary" @click="save">{{ $t('app.button_save') }}</button>
                     </div>
                 </div>
@@ -105,8 +89,12 @@
                         <div class="alert alert-info" v-if="history.length == 0">{{ $t('history.empty') }}</div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close') }}</button>
-                        <button type="button" class="btn btn-primary" @click="showEdit(account)">{{ $t('app.button_edit') }}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('app.button_close')
+                            }}
+                        </button>
+                        <button type="button" class="btn btn-primary" @click="showEdit(account)">{{
+                            $t('app.button_edit') }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -115,13 +103,18 @@
 </template>
 
 <script>
+    import AccountType from './AccountType.vue';
+
     export default {
+
+        components: {
+            'account-type': AccountType
+        },
 
         data() {
             return {
                 creating: false,
                 editing: false,
-                types: [],
                 account: {},
                 sites: {},
                 history: [],
@@ -130,9 +123,7 @@
                     errors: [],
                     type: '',
                     site_id: '',
-                    credential_login: '',
-                    credential_password: '',
-                    credential_comment: ''
+                    credentials: {},
                 }
             };
         },
@@ -159,38 +150,27 @@
                 this.showHistory(account);
             });
 
-            this.getTypes();
             this.getSites();
         },
 
         methods: {
 
-            getTypes() {
-                this.$http.get('/api/accounts/types')
-                        .then(response => {
-                            this.types = response.data;
-                        })
-                        .catch(response => {
-                            console.log(response);
-                        })
-            },
-
             getSites() {
                 this.$http.get('/api/sites/list')
-                        .then(response => {
-                            this.sites = response.data;
-                        });
+                    .then(response => {
+                        this.sites = response.data;
+                    });
             },
 
             show(account) {
                 this.$http['get']('/api/accounts/' + account.id)
-                        .then(response => {
-                            this.account = response.data;
-                            $('#modal-show-account').modal('show');
-                        })
-                        .catch(response => {
-                            console.log(response);
-                        })
+                    .then(response => {
+                        this.account = response.data;
+                        $('#modal-show-account').modal('show');
+                    })
+                    .catch(response => {
+                        console.log(response);
+                    })
             },
 
             showCreate() {
@@ -199,9 +179,7 @@
                 this.form.id = null;
                 this.form.site_id = '';
                 this.form.type = '';
-                this.form.credential_login =  '';
-                this.form.credential_password =  '';
-                this.form.credential_comment =  '';
+                this.form.credentials = {};
 
                 if (this.site_id) {
                     this.form.site_id = this.site_id;
@@ -209,24 +187,22 @@
                 }
 
                 $('#modal-form-account').modal('show');
-                $('#input-account-login').val('');
-                $('#input-account-password').val('');
             },
 
             showHistory(account) {
                 this.$http['get']('/api/accounts/history/' + account.id)
-                        .then(response => {
-                    this.account = response.data.account;
-                    this.history = response.data.history;
+                    .then(response => {
+                        this.account = response.data.account;
+                        this.history = response.data.history;
 
-                    $('#modal-form-account').modal('hide');
-                    $('#modal-account-history').modal('show');
-                })
-                .catch(response => {
-                    this.sites = {};
-                    this.history = [];
-                    console.log(response);
-                })
+                        $('#modal-form-account').modal('hide');
+                        $('#modal-account-history').modal('show');
+                    })
+                    .catch(response => {
+                        this.sites = {};
+                        this.history = [];
+                        console.log(response);
+                    })
             },
 
             showEdit(account) {
@@ -237,9 +213,7 @@
                 this.form.id = account.id;
                 this.form.type = account.type;
                 this.form.site_id = !account.accountable ? '' : account.accountable.id;
-                this.form.credential_login = account.credential_login;
-                this.form.credential_password = account.credential_password;
-                this.form.credential_comment = account.credential_comment;
+                this.form.credentials = account.credentials;
 
                 $('#modal-account-history').modal('hide');
                 $('#modal-form-account').modal('show');
@@ -265,9 +239,7 @@
                     .then(response => {
                         form.type = '';
                         form.site_id = '';
-                        form.credential_login = '';
-                        form.credential_password = '';
-                        form.credential_comment = '';
+                        form.credentials = {};
 
                         this.editing = false;
                         this.creating = false;
@@ -287,7 +259,12 @@
                 this.$http.delete('/api/accounts/' + account.id).then(response => {
                     eventBus.$emit('accountsRefresh');
                 });
-            }
+            },
+
+            credentialsUpdated(type, credentials) {
+                this.form.type = type;
+                this.form.credentials = credentials;
+            },
         }
     }
 </script>

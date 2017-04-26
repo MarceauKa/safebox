@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class ClientsController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function index()
     {
@@ -20,7 +18,7 @@ class ClientsController extends Controller
     }
 
     /**
-     * @return  JsonResponse
+     * @return array
      */
     public function lists()
     {
@@ -29,8 +27,7 @@ class ClientsController extends Controller
             'name'
         ]);
 
-        if (!$clients->isEmpty())
-        {
+        if (!$clients->isEmpty()) {
             return $clients->toArray();
         }
 
@@ -39,7 +36,7 @@ class ClientsController extends Controller
 
     /**
      * @param   int $id
-     * @return  JsonResponse
+     * @return  array
      */
     public function show($id)
     {
@@ -49,21 +46,19 @@ class ClientsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return Client
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'     => 'required|max:255',
-            'email'    => 'required|email',
-            'phone'    => 'max:20',
-            'address'  => 'max:255',
-            'note'     => 'max:255',
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'phone' => 'max:20',
+            'address' => 'max:255',
+            'note' => 'max:255',
             'facebook' => 'max:255',
-            'twitter'  => 'max:255',
+            'twitter' => 'max:255',
         ]);
 
         $client = new Client();
@@ -76,7 +71,7 @@ class ClientsController extends Controller
         $client->twitter = $request->get('twitter');
         $client->save();
 
-        return response('ok', 200);
+        return $client;
     }
 
     /**
@@ -84,18 +79,18 @@ class ClientsController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int                      $id
-     * @return \Illuminate\Http\Response
+     * @return Client
      */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name'     => 'required|max:255',
-            'email'    => 'required|email',
-            'phone'    => 'max:20',
-            'address'  => 'max:255',
-            'note'     => 'max:255',
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'phone' => 'max:20',
+            'address' => 'max:255',
+            'note' => 'max:255',
             'facebook' => 'max:255',
-            'twitter'  => 'max:255',
+            'twitter' => 'max:255',
         ]);
 
         $client = Client::findOrFail($id);
@@ -108,23 +103,23 @@ class ClientsController extends Controller
         $client->twitter = $request->get('twitter');
         $client->save();
 
-        return response('ok', 200);
+        return $client;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return JsonResponse
      */
     public function destroy($id)
     {
-        $client = Client::with('sites')->findOrFail($id);
+        $client = Client::findOrFail($id);
 
         $client->sites()->delete();
         $client->delete();
 
-        return response('ok', 200);
+        return new JsonResponse($client->id, 200);
     }
 
     /**
@@ -136,22 +131,19 @@ class ClientsController extends Controller
         $client = Client::with('revisionHistory')->findOrFail($id);
         $history = [];
 
-        if (!$client->revisionHistory->isEmpty())
-        {
-            $history = $client->revisionHistory->groupBy(function ($item, $key)
-            {
+        if (!$client->revisionHistory->isEmpty()) {
+            $history = $client->revisionHistory->groupBy(function ($item, $key) {
                 return substr($item->created_at, 0, 10);
-            })->map(function ($item, $key)
-            {
+            })->map(function ($item, $key) {
                 return collect([
-                    'date'    => $key,
+                    'date' => $key,
                     'entries' => $item
                 ]);
             })->values();
         }
 
         return new JsonResponse([
-            'client'  => $client,
+            'client' => $client,
             'history' => $history
         ]);
     }
