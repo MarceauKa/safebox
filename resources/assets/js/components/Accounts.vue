@@ -24,8 +24,8 @@
                         <tr v-for="account in accounts">
                             <td style="vertical-align: middle;">{{ account.accountable ? account.accountable.name : '-' }}</td>
                             <td style="vertical-align: middle;"><span class="label label-default">{{ account.type_name }}</span></td>
-                            <td style="vertical-align: middle;">{{ account.credential_login }}</td>
-                            <td style="vertical-align: middle;"><password :password="account.credential_password"></password></td>
+                            <td style="vertical-align: middle;">{{ account.credentials.login }}</td>
+                            <td style="vertical-align: middle;"><password :password="account.credentials.password"></password></td>
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <a @click="editAccount(account)" class="btn btn-default" :title="$t('app.button_edit')">

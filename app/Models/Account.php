@@ -13,7 +13,7 @@ class Account extends Model
         'ftp' => 'FTP',
         'mysql' => 'MySQL',
         'website' => 'Website',
-        'mail' => 'Email'
+        'email' => 'Email'
     ];
 
     /** @var array */
