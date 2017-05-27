@@ -76,6 +76,8 @@ module.exports = {
         empty: "You have not created any accounts.",
         site: "Site",
         type: "Type",
+        login: "Account",
+        password: "Password",
         types: {
             ssh: {
                 host: 'Host',
