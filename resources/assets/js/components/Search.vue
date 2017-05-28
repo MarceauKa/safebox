@@ -1,47 +1,65 @@
-<style scoped>
-    table.table {
-        margin-bottom: 2px;
+<style lang="less" scoped>
+    div.panel-heading {
+        padding: 0;
+        border-bottom: 0;
+
+        form {
+            input {
+                border: none;
+            }
+
+            .help-block {
+                position: absolute;
+                top: 7px;
+                right: 30px;
+                margin-top: 0;
+            }
+        }
     }
-    table.table caption {
-        padding-left: 8px;
-    }
-    table.table tr td:nth-child(2) {
-        max-width: 20%;
-        text-align: right;
-    }
-    span.help-block {
-        margin-bottom: 0;
+    div.panel-body {
+        padding: 0;
+
+        table.table {
+            margin-bottom: 0;
+
+            tbody {
+                td {
+                    border: none;
+                }
+            }
+        }
     }
 </style>
 
 <template>
     <div>
-        <div class="panel panel-default" :class="{ 'panel-success': has_results }">
-            <div class="panel-heading">{{ $t('search.title') }}</div>
-            <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">
                 <form @submit.prevent class="form-inline" method="POST">
                     <input type="text" class="form-control" style="width: 100%;" :placeholder="$t('search.placeholder')" id="input-search-form" v-model.trim="query" />
                     <span class="help-block">{{ searchIndicator }}</span>
                 </form>
             </div>
-            <table class="table" v-if="sites.length > 0">
-                <caption>{{ $t('search.sites') }}</caption>
-                <tbody>
-                <tr v-for="site in sites">
-                    <td>{{ site.name }}</td>
-                    <td><button class="btn btn-primary btn-xs" @click="showSite(site)">{{ $t('app.button_see') }}</button></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table" v-if="clients.length > 0">
-                <caption>{{ $t('search.clients') }}</caption>
-                <tbody>
-                <tr v-for="client in clients">
-                    <td>{{ client.name }}</td>
-                    <td><button class="btn btn-primary btn-xs" @click="showClient(client)">{{ $t('app.button_see') }}</button></td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="panel-body" v-if="showResults">
+                <table class="table">
+                    <tbody>
+                    <tr v-for="site in sites">
+                        <td>{{ site.name }}</td>
+                        <td class="col-xs-3 text-center"><span class="badge badge-primary">{{ $t('search.sites') }}</span></td>
+                        <td class="col-xs-3 text-right"><button class="btn btn-primary btn-xs" @click="showSite(site)">{{ $t('app.button_see') }}</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table">
+                    <tbody>
+                    <tr v-for="client in clients">
+                        <td>{{ client.name }}</td>
+                        <td class="col-xs-3 text-center"><span class="badge badge-success">{{ $t('search.clients') }}</span></td>
+                        <td class="col-xs-3 text-right"><button class="btn btn-primary btn-xs" @click="showClient(client)">{{ $t('app.button_see') }}</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
@@ -79,6 +97,9 @@
                 }
 
                 return '';
+            },
+            showResults() {
+                return this.sites.length > 0 || this.clients.length > 0;
             }
         },
 

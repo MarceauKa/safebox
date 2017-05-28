@@ -1,4 +1,4 @@
-@extends('layouts.side-search')
+@extends('layouts.search')
 
 @section('content')
     <div class="panel panel-default">

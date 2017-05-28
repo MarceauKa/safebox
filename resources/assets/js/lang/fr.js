@@ -23,10 +23,9 @@ module.exports = {
         to: "A"
     },
     search: {
-        title: "Recherche",
-        placeholder: "Votre recherche",
-        sites: "Sites",
-        clients: "Clients",
+        placeholder: "Recherche dans les sites, les clients, ...",
+        sites: "Site",
+        clients: "Client",
         indicator_searching: "Recherche...",
         indicator_typing: "En train d'écrire..."
     },
