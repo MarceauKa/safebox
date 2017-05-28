@@ -14,6 +14,10 @@ module.exports = {
         }
     },
 
+    mounted() {
+        this.form = this.accountCredentials;
+    },
+
     methods: {
         emitUpdate() {
             this.$emit('updated', JSON.stringify(this.form));

@@ -42,7 +42,8 @@
                                     <option v-for="(site, index) in sites" :value="index" v-text="site"></option>
                                 </select>
                             </div>
-                            <account-type :account-type="form.type" :account-credentials="form.credentials" @updated="credentialsUpdated"></account-type>
+                            <account-type :selected-type="form.type" :credentials="form.credentials" :update="editing"
+                                          @updated="credentialsUpdated"></account-type>
                         </form>
                     </div>
                     <div class="modal-footer">

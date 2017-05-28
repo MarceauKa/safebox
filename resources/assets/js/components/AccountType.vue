@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div class="form-group">
+        <div class="form-group" v-show="!update">
             <label>{{ $t('accounts.type') }}</label>
             <select name="type" v-model="type" class="form-control">
                 <option value="">{{ $t('app.option_choose') }}</option>
                 <option v-for="(type, key, index) in types" :value="key">{{ type }}</option>
             </select>
         </div>
-        <div :is="typeSelected" @updated="updated"></div>
+        <div :is="typeSelected" :account-credentials="credentials" @updated="updated"></div>
     </div>
 </template>
 
@@ -29,6 +29,11 @@
         },
 
         props: {
+            update: {
+                type: Boolean,
+                required: false,
+                default: false
+            },
             types: {
                 type: Object,
                 required: false,
@@ -40,6 +45,13 @@
                         'website': 'Website',
                         'email': 'Email'
                     }
+                }
+            },
+            credentials: {
+                type: Object,
+                required: false,
+                default: () => {
+                    return {}
                 }
             },
             selectedType: {
@@ -59,7 +71,7 @@
         methods: {
             updated(payload) {
                 this.form = JSON.parse(payload);
-                this.$emit('updated', this.type, this.form);
+                //this.$emit('updated', this.type, this.form);
             }
         },
 
@@ -76,6 +88,9 @@
         watch: {
             selectedType: function(value) {
                 this.type = value;
+            },
+            credentials: function(value) {
+                this.form = value;
             }
         }
     }
