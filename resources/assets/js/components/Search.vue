@@ -29,6 +29,14 @@
             }
         }
     }
+    .slide-fade-enter-active,
+    .slide-fade-leave-active {
+        transition: all .3s ease;
+    }
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateY(10px);
+        opacity: 0;
+    }
 </style>
 
 <template>
@@ -37,7 +45,14 @@
             <div class="panel-heading">
                 <form @submit.prevent class="form-inline" method="POST">
                     <input type="text" class="form-control" style="width: 100%;" :placeholder="$t('search.placeholder')" id="input-search-form" v-model.trim="query" />
-                    <span class="help-block">{{ searchIndicator }}</span>
+                    <transition name="slide-fade">
+                        <span class="help-block pull-right" v-if="searchIndicator">{{ searchIndicator }}</span>
+                    </transition>
+                    <transition name="slide-fade">
+                        <span class="help-block pull-right" v-if="showClearButton">
+                            <button class="btn btn-xs btn-link" @click="clear()">{{ $t('search.button_clear') }}</button>
+                        </span>
+                    </transition>
                 </form>
             </div>
             <div class="panel-body" v-if="showResults">
@@ -45,7 +60,8 @@
                     <tbody>
                     <tr v-for="site in sites">
                         <td>{{ site.name }}</td>
-                        <td class="col-xs-3 text-center"><span class="badge badge-primary">{{ $t('search.sites') }}</span></td>
+                        <td class="col-xs-3">{{ site.url }}</td>
+                        <td class="col-xs-3"><span class="badge badge-primary">{{ $t('search.sites') }}</span></td>
                         <td class="col-xs-3 text-right"><button class="btn btn-primary btn-xs" @click="showSite(site)">{{ $t('app.button_see') }}</button></td>
                     </tr>
                     </tbody>
@@ -54,7 +70,8 @@
                     <tbody>
                     <tr v-for="client in clients">
                         <td>{{ client.name }}</td>
-                        <td class="col-xs-3 text-center"><span class="badge badge-success">{{ $t('search.clients') }}</span></td>
+                        <td class="col-xs-3">{{ client.email }}</td>
+                        <td class="col-xs-3"><span class="badge badge-success">{{ $t('search.clients') }}</span></td>
                         <td class="col-xs-3 text-right"><button class="btn btn-primary btn-xs" @click="showClient(client)">{{ $t('app.button_see') }}</button></td>
                     </tr>
                     </tbody>
@@ -98,6 +115,9 @@
 
                 return '';
             },
+            showClearButton() {
+                return this.showResults && ! this.dirtyQuery;
+            },
             showResults() {
                 return this.sites.length > 0 || this.clients.length > 0;
             }
@@ -124,7 +144,13 @@
                                 })
                                 .catch(error => { alert(error) });
                 }
-            }, 250)
+            }, 250),
+
+            clear() {
+                this.sites = [];
+                this.clients = [];
+                this.query = '';
+            }
         }
     }
 </script>

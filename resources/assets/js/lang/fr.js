@@ -26,6 +26,7 @@ module.exports = {
         placeholder: "Recherche dans les sites, les clients, ...",
         sites: "Site",
         clients: "Client",
+        button_clear: "Effacer",
         indicator_searching: "Recherche...",
         indicator_typing: "En train d'écrire..."
     },
