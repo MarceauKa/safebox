@@ -44,7 +44,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <form @submit.prevent class="form-inline" method="POST">
-                    <input type="text" class="form-control" style="width: 100%;" :placeholder="$t('search.placeholder')" id="input-search-form" v-model.trim="query" />
+                    <input type="text" class="form-control" style="width: 100%;" :placeholder="$t('search.placeholder')" id="input-search-form" v-model.trim="query" autofocus autocomplete="off" />
                     <transition name="slide-fade">
                         <span class="help-block pull-right" v-if="searchIndicator">{{ searchIndicator }}</span>
                     </transition>
